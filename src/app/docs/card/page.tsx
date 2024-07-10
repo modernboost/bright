@@ -4,7 +4,7 @@ export default function Page() {
 	return (
 		<>
 			<div>
-				<Card>Button</Card>
+				<Card>Card</Card>
 			</div>
 		</>
 	);
