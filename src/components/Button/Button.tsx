@@ -10,7 +10,7 @@ export default function Button({
 	children?: React.ReactNode;
 }) {
 	return (
-		<button  onClick={(e) => onClick(e)} {...restProps}>
+		<button onClick={(e) => onClick(e)} {...restProps}>
 			{children}
 		</button>
 	);
