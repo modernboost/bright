@@ -6,7 +6,7 @@ export default function Page() {
 	return (
 		<>
 			<div>
-				<Player src={'file:///C:/Users/Jawad/Downloads/GYNE1%20(online-video-cutter.com).mp4'} />
+				<Player src={'http://localhost:5243/api/filemanifests/output.mpd'} />
 			</div>
 		</>
 	);

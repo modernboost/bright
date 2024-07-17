@@ -1,7 +1,9 @@
 import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import PlayerControls from "./PlayerControls";
 import RxPlayer from "rx-player";
+import { ILoadVideoOptions } from "rx-player/types";
 import { exitFullScreen, isFullScreen, requestFullScreen } from "./helpers";
+import PlayerOverLay from "./PlayerOverLay";
 
 export enum PlayerState {
 	PLAYING,
@@ -13,11 +15,29 @@ export enum PlayerState {
 interface Player {
 	state: PlayerState;
 	position: number;
+	loadedPosition: number;
 	duration: number;
 	playBackRate: number;
 	muted: boolean;
 	volume: number;
-	bitRates: { resolution: string; current: boolean; bitRate: string }[];
+	bitRates: {
+		id: string;
+		width: number;
+		heigth: number;
+		frameRate: number;
+		resolution: string;
+		bitRate: string;
+	}[];
+	autoBitRate: boolean;
+	currentBitRate: {
+		id: string;
+		width: number;
+		heigth: number;
+		frameRate: number;
+		resolution: string;
+		current: boolean;
+		bitRate: string;
+	};
 	pause: () => void;
 	play: () => void;
 	forward: (seconds: number) => void;
@@ -84,14 +104,14 @@ interface Player {
 // }
 
 export const PlayerContext = createContext({} as Player);
-export default function Player({ src }: { src: string }) {
+export default function Player({ src, playerOptions }: { src: string; playerOptions?: ILoadVideoOptions }) {
 	const videoRef = useRef(null);
-	const [player, setPlayer] = useState<Player | null>({});
 	const wrapperRef = useRef(null);
+	const [player, setPlayer] = useState<Player | null>({});
 	const [state, dispatch] = useReducer(reducer, {}, (state) => state);
 
 	useEffect(() => {
-		if (!videoRef.current) return;
+		if (!videoRef.current || !wrapperRef.current) return;
 
 		const _player = new RxPlayer({
 			videoElement: videoRef.current,
@@ -99,9 +119,10 @@ export default function Player({ src }: { src: string }) {
 
 		// play a video
 		_player.loadVideo({
-			url: "http://localhost:5243/api/filemanifests/output.mpd",
+			url: src,
 			transport: "dash",
 			autoPlay: true,
+			...playerOptions
 		});
 
 		_player.addEventListener("playerStateChange", (state) => {
@@ -114,11 +135,11 @@ export default function Player({ src }: { src: string }) {
 				position: state.position,
 				duration: state.duration,
 				playBackRate: state.playbackRate,
+				loadedPosition: state.position + state.bufferGap,
 			}));
 		});
 
 		_player.addEventListener("volumeChange", (state) => {
-			console.log("volumeChange", state);
 			setPlayer((prev) => ({
 				...prev,
 				volume: state.volume,
@@ -126,17 +147,39 @@ export default function Player({ src }: { src: string }) {
 			}));
 		});
 		_player.addEventListener("videoTrackChange", (state) => {
-			console.log("videoTrackChange", state);
+			setPlayer((prev) => ({
+				...prev,
+				bitRates: state?.representations.map((r) => ({
+					...r,
+					resolution: `${r.width}X${r.height}`,
+				})),
+			}));
 		});
 		_player.addEventListener("videoRepresentationChange", (state) => {
-			console.log("videoRepresentationChange", state);
+			setPlayer((prev) => ({
+				...prev,
+				autoBitRate: _player.getLockedVideoRepresentations() === null,
+				currentBitRate: {
+					...state,
+					resolution: `${state.width}X${state.height}`,
+				},
+			}));
 		});
+
 		dispatch({ type: "set_player", player, setPlayer, _player, wrapperRef });
-	}, [videoRef]);
+		return () => {
+			_player.removeEventListener("videoRepresentationChange");
+			_player.removeEventListener("videoTrackChange");
+			_player.removeEventListener("volumeChange");
+			_player.removeEventListener("positionUpdate");
+			_player.removeEventListener("playerStateChange");
+		};
+	}, [videoRef, wrapperRef]);
 	return (
-		<div ref={wrapperRef} className='relative'>
+		<div ref={wrapperRef} className='player-wrapper'>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video ref={videoRef} className='video ' src={src} />
+				<video controls ref={videoRef} className='video ' src={src} />
+				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>
 		</div>
@@ -175,7 +218,7 @@ function reducer(state, action) {
 			state._player.seekTo({ relative: -action.value });
 			return state;
 			break;
-		case "fullscreen":
+		case "toggle_fullscreen":
 			const ref = state.wrapperRef.current;
 			if (isFullScreen(ref)) exitFullScreen(ref);
 			else requestFullScreen(ref);
@@ -214,6 +257,36 @@ function reducer(state, action) {
 			}
 
 			return state;
+			break;
+		case "position_set":
+			console.log(action.value);
+			state._player.seekTo({ position: action.value });
+			return state;
+
+			break;
+		case "bitrate_set":
+			const periods = state._player.getAvailablePeriods();
+			for (const period of periods) {
+				const periodId = period.id;
+				const firstVideoTrack =
+					state._player.getAvailableVideoTracks(periodId)[0];
+				if (firstVideoTrack !== undefined) {
+					state._player.setVideoTrack({
+						trackId: firstVideoTrack.id,
+						periodId,
+						switchingMode: "direct",
+						lockedRepresentations: [action.value.id],
+					});
+				}
+			}
+			return state;
+
+			break;
+		case "autobitrate_set":
+			state._player.unlockVideoRepresentations();
+
+			return state;
+
 			break;
 		default:
 			throw Error("Unknow operation!");
