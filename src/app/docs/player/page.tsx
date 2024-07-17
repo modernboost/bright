@@ -6,7 +6,7 @@ export default function Page() {
 	return (
 		<>
 			<div>
-				<Player src={'http://localhost:5243/api/filemanifests/output.mpd'} />
+				<Player src={'http://localhost:5243/api/filemanifests/1'} />
 			</div>
 		</>
 	);

@@ -104,7 +104,13 @@ interface Player {
 // }
 
 export const PlayerContext = createContext({} as Player);
-export default function Player({ src, playerOptions }: { src: string; playerOptions?: ILoadVideoOptions }) {
+export default function Player({
+	src,
+	playerOptions,
+}: {
+	src: string;
+	playerOptions?: ILoadVideoOptions;
+}) {
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
 	const [player, setPlayer] = useState<Player | null>({});
@@ -122,7 +128,7 @@ export default function Player({ src, playerOptions }: { src: string; playerOpti
 			url: src,
 			transport: "dash",
 			autoPlay: true,
-			...playerOptions
+			...playerOptions,
 		});
 
 		_player.addEventListener("playerStateChange", (state) => {
@@ -178,7 +184,7 @@ export default function Player({ src, playerOptions }: { src: string; playerOpti
 	return (
 		<div ref={wrapperRef} className='player-wrapper'>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video controls ref={videoRef} className='video ' src={src} />
+				<video ref={videoRef} className='video ' src={src} />
 				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>
