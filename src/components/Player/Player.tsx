@@ -107,11 +107,11 @@ export const PlayerContext = createContext({} as Player);
 export default function Player({
 	src,
 	playerOptions,
-	srcType = "directfile"
+	srcType = "directfile",
 }: {
 	src: string;
 	playerOptions?: ILoadVideoOptions;
-	srcType? : "dash" | "directfile"
+	srcType?: "dash" | "directfile";
 }) {
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
@@ -130,6 +130,13 @@ export default function Player({
 			url: src,
 			transport: srcType,
 			autoPlay: true,
+			// manifestLoader(url, callbacks) {
+			// 	// logic to fetch the Manifest
+			// },
+
+			// segmentLoader(infos, callbacks) {
+			// 	// logic to download a segment
+			//   },
 			...playerOptions,
 		});
 
