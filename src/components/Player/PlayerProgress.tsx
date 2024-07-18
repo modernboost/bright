@@ -45,7 +45,7 @@ export default function PlayerProgress() {
 				style={{
 					backgroundSize: `${(playerCtx.position * 100) / playerCtx.duration}%`,
 				}}
-				max={playerCtx.duration}
+				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
 				className='w-full video-progress range__input'
 			/>
