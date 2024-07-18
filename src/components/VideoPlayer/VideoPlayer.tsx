@@ -1,8 +1,7 @@
 "use client";
-import { StoreContext } from "@/app/[lang]/StoreProvider";
-import { useContext, useRef } from "react";
+import { createContext, useContext, useRef } from "react";
 import ReactPlayer, { ReactPlayerProps } from "react-player";
-
+const StoreContext = createContext({})
 export default function VedioPlayer({
   url,
   poster,

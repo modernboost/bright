@@ -1,6 +1,8 @@
-import IsCurrentPath from "@/helpers/IsCurrentPath";
+// import IsCurrentPath from "@/helpers/IsCurrentPath";
 import Link from "next/link";
-
+function IsCurrentPath(){
+  
+}
 export default function NavebarItem({
   children,
   href,

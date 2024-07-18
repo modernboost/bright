@@ -1,13 +1,12 @@
 "use client";
 import NavebarItem from "./NavebarItem";
-import Menu from "@/components/Menu";
+// import Menu from "@/components/Menu";
 
-export default function Navebar({
+export default function Navbar({
   children,
   type = "vertical",
   horizontal_align = "center",
   items,
-  dic,
 }: {
   type?: "vertical" | "horizontal";
   horizontal_align?: "end" | "center" | "start";
@@ -38,7 +37,7 @@ export default function Navebar({
       </nav>
       <div className="flex">
         {children}
-        <Menu items={items} title={dic.title} />
+        {/* <Menu items={items} title={dic.title} /> */}
       </div>
     </>
   );

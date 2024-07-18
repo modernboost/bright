@@ -268,14 +268,6 @@ function reducer(state, action) {
 
 			return state;
 			break;
-		case "volumn_set":
-			state._player.setVolume(action.value);
-			if (action.value != 0 && state._player.isMute()) {
-				state._player.unMute();
-			}
-
-			return state;
-			break;
 		case "position_set":
 			state._player.seekTo({ position: action.value });
 			return state;

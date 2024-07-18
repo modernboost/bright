@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useState } from "react";
 import Popup from "../Popup/Popup";
 

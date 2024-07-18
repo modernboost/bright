@@ -1,13 +1,16 @@
+'use client'
+
 import clsx from "clsx";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Text from "../Text/Text";
 import { IconX } from "@tabler/icons-react";
 import Link from "next/link";
-import IsCurrentPath from "@/helpers/IsCurrentPath";
+// import IsCurrentPath from "@/helpers/IsCurrentPath";
+const IsCurrentPath = ()=>{}
 
 export const OffcanvasContext = createContext({
   open: false,
-  setOpen: () => {},
+  setOpen: (prev)=>prev,
 });
 
 export default function Offcanvas({
