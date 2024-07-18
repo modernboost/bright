@@ -107,9 +107,11 @@ export const PlayerContext = createContext({} as Player);
 export default function Player({
 	src,
 	playerOptions,
+	srcType = "directfile"
 }: {
 	src: string;
 	playerOptions?: ILoadVideoOptions;
+	srcType? : "dash" | "directfile"
 }) {
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
@@ -126,7 +128,7 @@ export default function Player({
 		// play a video
 		_player.loadVideo({
 			url: src,
-			transport: "dash",
+			transport: srcType,
 			autoPlay: true,
 			...playerOptions,
 		});
@@ -153,6 +155,8 @@ export default function Player({
 			}));
 		});
 		_player.addEventListener("videoTrackChange", (state) => {
+			console.log("track chage: ", state);
+
 			setPlayer((prev) => ({
 				...prev,
 				bitRates: state?.representations.map((r) => ({
@@ -162,6 +166,7 @@ export default function Player({
 			}));
 		});
 		_player.addEventListener("videoRepresentationChange", (state) => {
+			console.log("representation chage: ", state);
 			setPlayer((prev) => ({
 				...prev,
 				autoBitRate: _player.getLockedVideoRepresentations() === null,
@@ -251,7 +256,7 @@ function reducer(state, action) {
 			return state;
 			break;
 		case "playback_set":
-			console.log(state._player.getVideoRepresentation());
+			// console.log(state._player.getVideoRepresentation());
 			state._player.setPlaybackRate(action.value);
 
 			return state;
@@ -265,7 +270,6 @@ function reducer(state, action) {
 			return state;
 			break;
 		case "position_set":
-			console.log(action.value);
 			state._player.seekTo({ position: action.value });
 			return state;
 
@@ -277,6 +281,7 @@ function reducer(state, action) {
 				const firstVideoTrack =
 					state._player.getAvailableVideoTracks(periodId)[0];
 				if (firstVideoTrack !== undefined) {
+					console.log("lock with direct ");
 					state._player.setVideoTrack({
 						trackId: firstVideoTrack.id,
 						periodId,
@@ -285,11 +290,20 @@ function reducer(state, action) {
 					});
 				}
 			}
+			console.log(state._player.getLockedVideoRepresentations());
 			return state;
 
 			break;
 		case "autobitrate_set":
 			state._player.unlockVideoRepresentations();
+			state.setPlayer((prev) => ({
+				...prev,
+				autoBitRate: state._player.getLockedVideoRepresentations() === null,
+				currentBitRate: {
+					...state,
+					resolution: `${state.width}X${state.height}`,
+				},
+			}));
 
 			return state;
 

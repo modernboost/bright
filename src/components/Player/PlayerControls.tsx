@@ -62,8 +62,8 @@ export default function PlayerControls() {
 					)}
 				</Button>
 				<div className='progress-display-text'>
-					{secondsToTimeString(playerCtx.position)} / {""}
-					{secondsToTimeString(playerCtx.duration)}
+					{secondsToTimeString(playerCtx.position ?? 0)} / {""}
+					{secondsToTimeString(playerCtx.duration ?? 0)}
 				</div>
 
 				{/* Go to Previous Video */}
@@ -92,20 +92,23 @@ export default function PlayerControls() {
 						min={0}
 						max={1}
 						onChange={(event) => setVolumn(event.target.value)}
-						defaultValue={playerCtx.volumn}
+						defaultValue={playerCtx.volume}
 					/>
 				</div>
 				{/* </Popup> */}
 
 				{/* Quality */}
 				<Button className='ms-auto'>
-					{/* {playerCtx?.currentBitRate?.resolution} */}
-					{playerCtx?.autoBitRate && "Auto"}
+					{playerCtx?.autoBitRate
+						? "Auto"
+						: playerCtx?.currentBitRate?.resolution}
 				</Button>
 				<Popup trigger='hover'>
 					<div className='text-slate-600 '>
 						<div
-							className=' hover:cursor-pointer hover:bg-slate-100'
+							className={`hover:cursor-pointer hover:bg-slate-200 ${
+								playerCtx.autoBitRate ? "bg-slate-200" : ""
+							} `}
 							key={0}
 							onClick={setAutobitRate}
 						>
@@ -114,7 +117,8 @@ export default function PlayerControls() {
 						{playerCtx?.bitRates?.map((bitRate, i) => (
 							<div
 								className={`hover:cursor-pointer hover:bg-slate-200 ${
-									bitRate.id == playerCtx?.currentBitRate?.id
+									bitRate.id == playerCtx?.currentBitRate?.id &&
+									!playerCtx.autoBitRate
 										? "bg-slate-200"
 										: ""
 								} `}
@@ -131,12 +135,13 @@ export default function PlayerControls() {
 				<Button> {playerCtx?.playBackRate ?? "1"}X </Button>
 				<Popup trigger='hover'>
 					<div className='text-slate-600'>
-						{speedList.map((speed) => (
+						{speedList.map((speed, i) => (
 							<div
+								key={i}
 								className={`hover:cursor-pointer hover:bg-slate-100 ${
-									speed == 1 && "bg-slate-200"
+									speed == playerCtx.playBackRate && "bg-slate-200"
 								}`}
-								onClick={() => setPlayback(0.25)}
+								onClick={() => setPlayback(speed)}
 							>
 								{speed} {speed === 1 && "Normal"}
 							</div>

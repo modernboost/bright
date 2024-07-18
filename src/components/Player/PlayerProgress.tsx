@@ -39,9 +39,8 @@ export default function PlayerProgress() {
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 				onMouseMove={handleMouseOver}
-				defaultValue={playerCtx.position}
 				onChange={(event) => setPosition(event.target.value)}
-				value={playerCtx.position}
+				value={playerCtx.position ?? 0}
 				min={0}
 				style={{
 					backgroundSize: `${(playerCtx.position * 100) / playerCtx.duration}%`,
