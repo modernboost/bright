@@ -1,9 +1,11 @@
-import {Card} from "@mbtjs/bright"
+"use client"
+import { Button } from "@mbtjs/bright";
+
 export default function Page() {
 	return (
 		<>
 			<div>
-				<Card>Button</Card>
+				<Button></Button>
 			</div>
 		</>
 	);
