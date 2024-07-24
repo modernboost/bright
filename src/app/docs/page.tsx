@@ -6,8 +6,8 @@ export default function Page() {
 		<>
 			<h1>Components Documentation</h1>
 			<ul>
-				{components.map((component) => (
-					<li>
+				{components.map((component, i) => (
+					<li key={i}>
 						<Link href={component.href}>{component.name}</Link>
 				</li>
 				))}
