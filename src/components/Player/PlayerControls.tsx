@@ -82,9 +82,9 @@ export default function PlayerControls() {
 				</Button>
 
 				{/* <Popup placement='top'> */}
-				<div>
+				<div className='max-w-16'>
 					<input
-						className='w-20'
+						className='w-full'
 						type='range'
 						name=''
 						id=''
