@@ -111,14 +111,19 @@ export default function Player({
 }: {
 	src: string;
 	playerOptions?: ILoadVideoOptions;
-	srcType?: "dash" | "directfile";
+	srcType?: "dash" | "directfile" | "auto";
 }) {
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
 	const [player, setPlayer] = useState<Player | null>({});
 	const [state, dispatch] = useReducer(reducer, {}, (state) => state);
+	const [transport, setTransport] = useState({
+		type: srcType == "auto" ? "dash" : srcType,
+		changed: false,
+	});
 
 	useEffect(() => {
+		console.log({ transport });
 		if (!videoRef.current || !wrapperRef.current) return;
 
 		const _player = new RxPlayer({
@@ -128,7 +133,7 @@ export default function Player({
 		// play a video
 		_player.loadVideo({
 			url: src,
-			transport: srcType,
+			transport: transport.type,
 			autoPlay: true,
 			// manifestLoader(url, callbacks) {
 			// 	// logic to fetch the Manifest
@@ -183,6 +188,19 @@ export default function Player({
 				},
 			}));
 		});
+		_player.addEventListener("error", (error) => {
+			console.log({ error });
+			if (error.type == "OTHER_ERROR" && error.code == "PIPELINE_PARSE_ERROR") {
+				if (srcType !== "auto") return;
+				if (transport.changed) return;
+
+				if (transport.type == "dash") {
+					setTransport({ type: "directfile", changed: true });
+				} else {
+					setTransport({ type: "dash", changed: true });
+				}
+			}
+		});
 
 		dispatch({ type: "set_player", player, setPlayer, _player, wrapperRef });
 		return () => {
@@ -191,12 +209,13 @@ export default function Player({
 			_player.removeEventListener("volumeChange");
 			_player.removeEventListener("positionUpdate");
 			_player.removeEventListener("playerStateChange");
+			_player.dispose();
 		};
-	}, [videoRef, wrapperRef]);
+	}, [videoRef, wrapperRef, transport]);
 	return (
 		<div ref={wrapperRef} className='player-wrapper'>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video ref={videoRef} className='video ' src={src} />
+				<video ref={videoRef} className='video aspect-video ' src={src} />
 				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>

@@ -12,12 +12,16 @@ export default function PlayerProgress() {
 	}
 
 	function handleMouseOver(event) {
-		const total = event.target.offsetWidth;
-		const current = event.clientX;
-		const percentage = (100 * current) / total;
+		const node = event.target;
+		const rect = node.getBoundingClientRect();
+		const x1 = event.clientX - rect.left;
+		const x2 = event.clientX - rect.right;
+		const y = event.clientY - rect.top;
+
+		const percentage = (100 * x1) / (x1 - x2);
 		const p = (playerCtx.duration * percentage) / 100;
 
-		setLeft(event.clientX);
+		setLeft(x1);
 
 		setTime(secondsToTimeString(p));
 	}
