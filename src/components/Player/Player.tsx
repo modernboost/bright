@@ -213,7 +213,7 @@ export default function Player({
 		};
 	}, [videoRef, wrapperRef, transport]);
 	return (
-		<div ref={wrapperRef} className='player-wrapper'>
+		<div dir="ltr" ref={wrapperRef} className='player-wrapper'>
 			<PlayerContext.Provider value={{ dispatch, player }}>
 				<video ref={videoRef} className='video aspect-video ' src={src} />
 				<PlayerOverLay />

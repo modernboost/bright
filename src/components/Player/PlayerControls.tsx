@@ -54,7 +54,7 @@ export default function PlayerControls() {
 			<PlayerProgress />
 			<div className='video-options-wrapper'>
 				{/* playe and pause btn */}
-				<Button onClick={togglePlaying}>
+				<Button type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
 						<IconPlayerPause />
 					) : (
@@ -67,17 +67,17 @@ export default function PlayerControls() {
 				</div>
 
 				{/* Go to Previous Video */}
-				<Button onClick={backward}>
+				<Button onClick={backward} type = 'button'> 
 					<IconRewindBackward10 />
 				</Button>
 
 				{/* Go to Next video  */}
-				<Button onClick={forward}>
+				<Button onClick={forward} type ='button'>
 					<IconRewindForward10 />
 				</Button>
 
 				{/* Mute and Unmute */}
-				<Button onClick={() => toggleMuted()}>
+				<Button onClick={() => toggleMuted()} type = 'button'>
 					{playerCtx.muted ? <IconVolumeOff /> : <IconVolume />}{" "}
 				</Button>
 
@@ -98,7 +98,7 @@ export default function PlayerControls() {
 				{/* </Popup> */}
 
 				{/* Quality */}
-				<Button className='ms-auto'>
+				<Button className='ms-auto' type = 'button'>
 					{playerCtx?.autoBitRate
 						? "Auto"
 						: playerCtx?.currentBitRate?.resolution}
@@ -132,7 +132,7 @@ export default function PlayerControls() {
 				</Popup>
 
 				{/* Playback Speed */}
-				<Button> {playerCtx?.playBackRate ?? "1"}X </Button>
+				<Button type = 'button'> {playerCtx?.playBackRate ?? "1"}X </Button>
 				<Popup trigger='hover'>
 					<div className='text-slate-600'>
 						{speedList.map((speed, i) => (
@@ -155,7 +155,7 @@ export default function PlayerControls() {
 				</Button> */}
 
 				{/* Full screen */}
-				<Button onClick={setFullScreen}>
+				<Button type = 'button' onClick={setFullScreen}>
 					<IconMaximize />
 				</Button>
 			</div>
