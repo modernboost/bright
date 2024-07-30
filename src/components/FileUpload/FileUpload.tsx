@@ -90,6 +90,7 @@ export default function FileUpload({
 			>
 				{!uploading && (
 					<button
+						type='button'
 						className='hover:underline'
 						style={{
 							position: "relative",
@@ -114,12 +115,20 @@ export default function FileUpload({
 					</button>
 				)}
 				{uploadedUrl && (
-					<button className='hover:underline' onClick={deleteFile}>
+					<button
+						type='button'
+						className='hover:underline'
+						onClick={deleteFile}
+					>
 						Delete
 					</button>
 				)}
 				{uploading && (
-					<button className='hover:underline' onClick={cancelUpload}>
+					<button
+						type='button'
+						className='hover:underline'
+						onClick={cancelUpload}
+					>
 						Cancel
 					</button>
 				)}
