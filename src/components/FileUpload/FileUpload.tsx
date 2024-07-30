@@ -71,7 +71,7 @@ export default function FileUpload({
 				gap: "0.5em",
 			}}
 		>
-			<input type='text' readOnly value={uploadedUrl ?? ""} hidden />
+			<input type='text' readOnly value={uploadedUrl ?? ""} hidden name={name}  />
 			<Preview
 				PreviewComponenet={PreviewComponenet}
 				multiple={multiple}
@@ -157,7 +157,7 @@ function Preview({
 	let items = null;
 
 	if (multiple) {
-		items = uploadedUrl?.map((url) => <img src={url} alt='alt' />);
+		items = uploadedUrl?.map((url, i ) => <img  key={i} src={url} alt='alt' />);
 	} else {
 		items = <img src={uploadedUrl.toString()} alt='alt' />;
 	}
