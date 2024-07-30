@@ -7,3 +7,4 @@ export {default as Popup} from './Popup/Popup';
 export {default as Spinner} from './Spinner/Spinner';
 export {default as Text} from './Text/Text';
 export {default as Player} from './Player/Player';
+export {default as FileUpload} from './FileUpload/FileUpload';
