@@ -50,9 +50,9 @@ export default function PlayerControls() {
 	const speedList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 	return (
-		<div className='video-controls-wrapper'>
+		<div className='b-video-controls-wrapper'>
 			<PlayerProgress />
-			<div className='video-options-wrapper'>
+			<div className='b-video-options-wrapper'>
 				{/* playe and pause btn */}
 				<Button type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
@@ -61,7 +61,7 @@ export default function PlayerControls() {
 						<IconPlayerPlay />
 					)}
 				</Button>
-				<div className='progress-display-text'>
+				<div className='b-progress-display-text'>
 					{secondsToTimeString(playerCtx.position ?? 0)} / {""}
 					{secondsToTimeString(playerCtx.duration ?? 0)}
 				</div>

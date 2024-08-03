@@ -12,7 +12,7 @@ export default function PlayerOverLay() {
 	}
 	return (
 		<div
-			className=' player-overlay'
+			className=' b-player-overlay'
 			onDoubleClick={handleOverlayDoubleClick}
 			onClick={handleOverlayClick}
 		>

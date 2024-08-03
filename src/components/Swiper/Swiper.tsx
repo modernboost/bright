@@ -78,9 +78,9 @@ export default function Swipper({
   }, [swp]);
   // init Swiper:
   return (
-    <div className="swiper-outer-wrapper">
-      <div className="swiper" ref={swp}>
-        <div className="swiper-wrapper ">{children}</div>
+    <div className="b-swiper-outer-wrapper swiper-outer-wrapper">
+      <div className="b-swiper swiper" ref={swp}>
+        <div className="b-swiper-wrapper swiper-wrapper ">{children}</div>
         {/* <div className='swiper-wrapper'>
 
 				<div className="swiper-slide">slide 1</div>
@@ -88,10 +88,10 @@ export default function Swipper({
 				<div className="swiper-slide">slide 3</div>
 				<div className="swiper-slide">slide 4</div>
 			</div> */}
-        <div className="swiper-pagination "></div>
-        <div className="swiper-button-prev rounded-full cursor-none"></div>
-        <div className="swiper-button-next rounded-full  cursor-none  "></div>
-        <div className="swiper-scrollbar"></div>
+        <div className="b-swiper-pagination swiper-pagination "></div>
+        <div className="b-swiper-button-prev swiper-button-prev rounded-full cursor-none"></div>
+        <div className="b-swiper-button-next swiper-button-next rounded-full  cursor-none  "></div>
+        <div className="b-swiper-scrollbar swiper-scrollbar"></div>
       </div>
     </div>
   );

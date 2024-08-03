@@ -32,9 +32,9 @@ export default function PlayerProgress() {
 		setOver(false);
 	}
 	return (
-		<div className='video-progress-container'>
+		<div className='b-video-progress-container'>
 			<div
-				className='video-loaded-progress'
+				className='b-video-loaded-progress'
 				style={{
 					width: `${playerCtx.loadedPosition / (playerCtx.duration / 100)}%`,
 				}}
@@ -51,7 +51,7 @@ export default function PlayerProgress() {
 				}}
 				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
-				className='w-full video-progress range__input'
+				className='w-full b-video-progress range__input'
 			/>
 			<div
 				className={`range__output ${over ? "block" : ""}`}

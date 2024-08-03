@@ -16,7 +16,7 @@ export default function Navbar({
   return (
     <>
       <nav
-        className={`hidden lg:flex mx-auto navbar  ${
+        className={`hidden lg:flex mx-auto b-navbar  ${
           type == "horizontal" ? "" : "flex-col"
         } ${
           horizontal_align == "center"

@@ -3,8 +3,8 @@ import { ReactNode, useState } from "react";
 export default function FileUpload({
 	onFileSelect,
 	multiple = false,
-	type,
 	name,
+	accept,
 	onCancel,
 	defaultFile,
 	onDelete,
@@ -12,11 +12,11 @@ export default function FileUpload({
 }: {
 	defaultFile?: string;
 	multiple?: boolean;
+	accept?: string;
 	PreviewComponenet: ReactNode;
 	onFileSelect: (event: Event) => {};
 	onCancel: () => {};
 	onDelete: () => {};
-	type: string;
 	name: string;
 }) {
 	const [uploading, setUploading] = useState<boolean>(false);
@@ -71,7 +71,13 @@ export default function FileUpload({
 				gap: "0.5em",
 			}}
 		>
-			<input type='text' readOnly value={uploadedUrl ?? ""} hidden name={name}  />
+			<input
+				type='text'
+				readOnly
+				value={uploadedUrl ?? ""}
+				hidden
+				name={name}
+			/>
 			<Preview
 				PreviewComponenet={PreviewComponenet}
 				multiple={multiple}
@@ -109,7 +115,7 @@ export default function FileUpload({
 							className='text'
 							multiple={multiple}
 							type='file'
-							accept='jpg,png'
+							accept={accept}
 							onChange={fileChange}
 						/>
 					</button>
@@ -157,7 +163,7 @@ function Preview({
 	let items = null;
 
 	if (multiple) {
-		items = uploadedUrl?.map((url, i ) => <img  key={i} src={url} alt='alt' />);
+		items = uploadedUrl?.map((url, i) => <img key={i} src={url} alt='alt' />);
 	} else {
 		items = <img src={uploadedUrl.toString()} alt='alt' />;
 	}

@@ -145,9 +145,9 @@ export default function Popup({
   }, [reference, popperElement, show, arrowElement]);
 
   return (
-    <div ref={setPopperElement} className={`popup ${show ? "open" : ""}`}>
+    <div ref={setPopperElement} className={`b-popup ${show ? "open" : ""}`}>
       {children}
-      <div className="popup-arrow" ref={setArrowElement} />
+      <div className="b-popup-arrow" ref={setArrowElement} />
     </div>
   );
 }

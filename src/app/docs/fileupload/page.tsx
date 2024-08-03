@@ -58,6 +58,7 @@ export default function Test() {
 	// setPreviewRef(<Player srcType={"auto"} src={"/api/download/100"} />);
 	return (
 		<FileUpload
+		    name="content"
 			defaultFile='100'
 			PreviewComponenet={previewRef}
 			onDelete={deletFile}

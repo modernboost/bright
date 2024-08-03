@@ -40,11 +40,11 @@ export default function Offcanvas({
     <OffcanvasContext.Provider value={{ open: isOpen, setOpen }}>
       {open && (
         <div
-          className="offcanvas-backdrop"
+          className="b-offcanvas-backdrop"
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <div className={clsx(!isOpen && "hidden", "offcanvas", position)}>
+      <div className={clsx(!isOpen && "hidden", "b-offcanvas", position)}>
         <OffcanvasHeader title={title}></OffcanvasHeader>
         <OffcanvasBody>
           {items.map((item, i) => {
@@ -57,7 +57,7 @@ export default function Offcanvas({
 }
 
 function OffcanvasBody({ children }: { children: React.ReactNode }) {
-  return <div className="offcanvas-body">{children}</div>;
+  return <div className="b-offcanvas-body">{children}</div>;
 }
 
 function OffcanvasItem({ item }: { item?: Record<string, any> }) {
@@ -69,7 +69,7 @@ function OffcanvasItem({ item }: { item?: Record<string, any> }) {
   }
 
   return (
-    <div className="offcanvas-item ">
+    <div className="b-offcanvas-item ">
       {item.href ? (
         <Link
           prefetch={true}
@@ -106,7 +106,7 @@ function OffcanvasHeader({
 }) {
   const { setOpen } = useContext(OffcanvasContext);
   return (
-    <div className="offcanvas-header ">
+    <div className="b-offcanvas-header ">
       <Text type="h3">{title}</Text>
       {children}
       <IconX

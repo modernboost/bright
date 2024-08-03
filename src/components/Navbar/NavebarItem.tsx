@@ -21,5 +21,5 @@ export default function NavebarItem({
       </Link>
     );
   }
-  return <div className="navbar-item lg:mx-3  p-2">{children}</div>;
+  return <div className="b-navbar-item lg:mx-3  p-2">{children}</div>;
 }

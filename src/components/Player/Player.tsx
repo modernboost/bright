@@ -108,10 +108,14 @@ export default function Player({
 	src,
 	playerOptions,
 	srcType = "directfile",
+	onPlay,
+	onPause,
 }: {
 	src: string;
 	playerOptions?: ILoadVideoOptions;
 	srcType?: "dash" | "directfile" | "auto";
+	onPlay?: (player) => void;
+	onPause?: (player) => void;
 }) {
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
@@ -123,7 +127,6 @@ export default function Player({
 	});
 
 	useEffect(() => {
-		console.log({ transport });
 		if (!videoRef.current || !wrapperRef.current) return;
 
 		const _player = new RxPlayer({
@@ -134,7 +137,8 @@ export default function Player({
 		_player.loadVideo({
 			url: src,
 			transport: transport.type,
-			autoPlay: true,
+			autoPlay: false,
+
 			// manifestLoader(url, callbacks) {
 			// 	// logic to fetch the Manifest
 			// },
@@ -202,7 +206,15 @@ export default function Player({
 			}
 		});
 
-		dispatch({ type: "set_player", player, setPlayer, _player, wrapperRef });
+		dispatch({
+			type: "set_player",
+			player,
+			setPlayer,
+			_player,
+			wrapperRef,
+			onPlay,
+			onPause,
+		});
 		return () => {
 			_player.removeEventListener("videoRepresentationChange");
 			_player.removeEventListener("videoTrackChange");
@@ -213,9 +225,14 @@ export default function Player({
 		};
 	}, [videoRef, wrapperRef, transport]);
 	return (
-		<div dir="ltr" ref={wrapperRef} className='player-wrapper'>
+		<div dir='ltr' ref={wrapperRef} className='b-player-wrapper'>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video ref={videoRef} className='video aspect-video ' src={src} />
+				<video
+					poster='/pdfIcon.png'
+					ref={videoRef}
+					className='b-video aspect-video '
+					src={src}
+				/>
 				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>
@@ -230,15 +247,19 @@ function reducer(state, action) {
 				_player: action._player,
 				setPlayer: action.setPlayer,
 				wrapperRef: action.wrapperRef,
+				onPlay: action.onPlay,
+				onPause: action.onPause,
 			};
 
 			break;
 		case "toggle_playing":
 			if (state._player.getPlayerState() === "PLAYING") {
 				state._player.pause();
+				state.onPause && state.onPause(state._player);
 				state.setPlayer((prev) => ({ ...prev, state: "PLAYING" }));
 			} else {
 				state._player.play();
+				state.onPlay && state.onPlay(state._player);
 				// state.setPlayer((prev) => ({ ...prev, state: 	"STOPED" }));
 			}
 			return state;

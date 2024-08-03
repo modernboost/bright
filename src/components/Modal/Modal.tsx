@@ -36,13 +36,13 @@ export default function Modal({
           console.log("second");
           onChange();
         }}
-        className={`modal-backdrop ${isOpen ? "" : "hidden"} `}
+        className={`b-modal-backdrop ${isOpen ? "" : "hidden"} `}
       >
         <div
           onClick={e => {
             e.stopPropagation();
           }}
-          className={`modal ${className}`}
+          className={`b-odal ${className}`}
           {...restProps}
         >
           {children}
@@ -63,7 +63,7 @@ export function ModalHeader({
 }) {
   const { setIsOpen } = useContext(ModalContext);
   return (
-    <div className={` modal-header ${className}`} {...restProps}>
+    <div className={` b-modal-header ${className}`} {...restProps}>
       {children}
       <IconX
         onClick={() => setIsOpen()}

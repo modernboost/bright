@@ -20,7 +20,7 @@ export default function DropdownItem({
     <>
       {href ? (
         <Link
-          className="w-full  rounded p-2 hover:bg-slate-200 dropdown-item"
+          className="w-full  rounded p-2 hover:bg-slate-200 b-dropdown-item"
           href={href}
           {...rest}
         >
@@ -31,7 +31,7 @@ export default function DropdownItem({
       ) : (
         <div
         {...rest}
-          className=" w-full  rounded p-2 hover:bg-slate-200 hover:cursor-pointer dropdown-item"
+          className=" w-full  rounded p-2 hover:bg-slate-200 hover:cursor-pointer b-dropdown-item"
         >
           {icon}
           {text}
