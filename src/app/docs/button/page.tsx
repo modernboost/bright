@@ -4,7 +4,7 @@ import { Button } from "@mbtjs/bright";
 export default function Page() {
 	return (
 		<>
-			<div>
+			<div dir="rtl">
 				<Button >hellow</Button>
 			</div>
 		</>

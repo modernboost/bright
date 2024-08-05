@@ -1,0 +1,8 @@
+
+.card {
+	/* border-radius: 1rem; */
+	box-shadow: var(--box-shadow);
+	overflow: hidden;
+	background-color: white;
+	@apply rounded-xl border;
+}

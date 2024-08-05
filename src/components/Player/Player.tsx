@@ -4,6 +4,7 @@ import RxPlayer from "rx-player";
 import { ILoadVideoOptions } from "rx-player/types";
 import { exitFullScreen, isFullScreen, requestFullScreen } from "./helpers";
 import PlayerOverLay from "./PlayerOverLay";
+import styles from "./Player.module.css";
 
 export enum PlayerState {
 	PLAYING,
@@ -225,12 +226,12 @@ export default function Player({
 		};
 	}, [videoRef, wrapperRef, transport]);
 	return (
-		<div dir='ltr' ref={wrapperRef} className='b-player-wrapper'>
+		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper}>
 			<PlayerContext.Provider value={{ dispatch, player }}>
 				<video
 					poster='/pdfIcon.png'
 					ref={videoRef}
-					className='b-video aspect-video '
+					className={styles.video}
 					src={src}
 				/>
 				<PlayerOverLay />

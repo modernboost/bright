@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import PlayerProgress from "./PlayerProgress";
 import { PlayerContext } from "./Player";
 import Popup from "../Popup/Popup";
+import styles from "./Player.module.css";
 import {
 	IconMaximize,
 	IconPlayerPause,
@@ -50,9 +51,9 @@ export default function PlayerControls() {
 	const speedList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 	return (
-		<div className='b-video-controls-wrapper'>
+		<div className={styles.videoControlsWrapper}>
 			<PlayerProgress />
-			<div className='b-video-options-wrapper'>
+			<div className={styles.videoOptionsWrapper}>
 				{/* playe and pause btn */}
 				<Button type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
@@ -61,30 +62,30 @@ export default function PlayerControls() {
 						<IconPlayerPlay />
 					)}
 				</Button>
-				<div className='b-progress-display-text'>
+				<div className={styles.progressDisplayText}>
 					{secondsToTimeString(playerCtx.position ?? 0)} / {""}
 					{secondsToTimeString(playerCtx.duration ?? 0)}
 				</div>
 
 				{/* Go to Previous Video */}
-				<Button onClick={backward} type = 'button'> 
+				<Button onClick={backward} type='button'>
 					<IconRewindBackward10 />
 				</Button>
 
 				{/* Go to Next video  */}
-				<Button onClick={forward} type ='button'>
+				<Button onClick={forward} type='button'>
 					<IconRewindForward10 />
 				</Button>
 
 				{/* Mute and Unmute */}
-				<Button onClick={() => toggleMuted()} type = 'button'>
+				<Button onClick={() => toggleMuted()} type='button'>
 					{playerCtx.muted ? <IconVolumeOff /> : <IconVolume />}{" "}
 				</Button>
 
 				{/* <Popup placement='top'> */}
-				<div className='max-w-16'>
+				<div className={styles.mxW16}>
 					<input
-						className='w-full'
+						className={styles.widthFull}
 						type='range'
 						name=''
 						id=''
@@ -98,16 +99,16 @@ export default function PlayerControls() {
 				{/* </Popup> */}
 
 				{/* Quality */}
-				<Button className='ms-auto' type = 'button'>
+				<Button className={styles.mlAuto} type='button'>
 					{playerCtx?.autoBitRate
 						? "Auto"
 						: playerCtx?.currentBitRate?.resolution}
 				</Button>
 				<Popup trigger='hover'>
-					<div className='text-slate-600 '>
+					<div className={styles.slate600}>
 						<div
-							className={`hover:cursor-pointer hover:bg-slate-200 ${
-								playerCtx.autoBitRate ? "bg-slate-200" : ""
+							className={`${styles.popupHover} ${
+								playerCtx.autoBitRate ? styles.popupHoverSlate200 : ""
 							} `}
 							key={0}
 							onClick={setAutobitRate}
@@ -116,10 +117,10 @@ export default function PlayerControls() {
 						</div>
 						{playerCtx?.bitRates?.map((bitRate, i) => (
 							<div
-								className={`hover:cursor-pointer hover:bg-slate-200 ${
+								className={`${styles.popupHover} ${
 									bitRate.id == playerCtx?.currentBitRate?.id &&
 									!playerCtx.autoBitRate
-										? "bg-slate-200"
+										? styles.popupHoverSlate200
 										: ""
 								} `}
 								key={++i}
@@ -132,14 +133,14 @@ export default function PlayerControls() {
 				</Popup>
 
 				{/* Playback Speed */}
-				<Button type = 'button'> {playerCtx?.playBackRate ?? "1"}X </Button>
+				<Button type='button'> {playerCtx?.playBackRate ?? "1"}X </Button>
 				<Popup trigger='hover'>
-					<div className='text-slate-600'>
+					<div className={styles.slate600}>
 						{speedList.map((speed, i) => (
 							<div
 								key={i}
-								className={`hover:cursor-pointer hover:bg-slate-100 ${
-									speed == playerCtx.playBackRate && "bg-slate-200"
+								className={`${styles.popupHover} ${
+									speed == playerCtx.playBackRate && styles.popupHover
 								}`}
 								onClick={() => setPlayback(speed)}
 							>
@@ -155,7 +156,7 @@ export default function PlayerControls() {
 				</Button> */}
 
 				{/* Full screen */}
-				<Button type = 'button' onClick={setFullScreen}>
+				<Button type='button' onClick={setFullScreen}>
 					<IconMaximize />
 				</Button>
 			</div>

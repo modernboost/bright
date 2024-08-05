@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { PlayerContext } from "./Player";
 import { IconPlayerPlay } from "@tabler/icons-react";
+import styles from './Player.module.css';
 
 export default function PlayerOverLay() {
 	const { dispatch, player: playerCtx } = useContext(PlayerContext);
@@ -12,14 +13,14 @@ export default function PlayerOverLay() {
 	}
 	return (
 		<div
-			className=' b-player-overlay'
+			className={styles.PlayerOverlay}
 			onDoubleClick={handleOverlayDoubleClick}
 			onClick={handleOverlayClick}
 		>
 			{playerCtx.state !== "PLAYING" && (
 				<IconPlayerPlay
 					size={45}
-					className=' text-slate-200 shadow-xl relative top-[50%] left-[50%]'
+					className={styles.overlayIcon}
 					style={{
 						transform: "translate(-50%, -50%)",
 					}}

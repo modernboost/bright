@@ -1,0 +1,13 @@
+.fileUpload {
+	@apply border rounded-md;
+	position: "relative";
+	justify-content: "center";
+	display: "flex";
+	align-items: "center";
+	flex-direction: "column";
+	padding: "0.1em";
+	gap: "0.5em";
+}
+.lineunder{
+	@apply hover:underline;
+}

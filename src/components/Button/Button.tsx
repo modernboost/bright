@@ -1,4 +1,5 @@
 "use client";
+import styles from "./Button.module.css";
 export default function Button({
 	children,
 	onClick = () => {},
@@ -8,7 +9,11 @@ export default function Button({
 	children?: React.ReactNode;
 }) {
 	return (
-		<button onClick={(e) => onClick(e)} {...restProps}>
+		<button
+			className={styles.button}
+			onClick={(e) => onClick(e)}
+			{...restProps}
+		>
 			{children}
 		</button>
 	);

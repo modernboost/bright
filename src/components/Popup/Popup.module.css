@@ -1,0 +1,17 @@
+.popup {
+	display: none;
+	background: white;
+	@apply shadow-md rounded-lg;
+	padding: 10px;
+	z-index: 1000;
+	position: relative;
+}
+.popupOpen {
+	display: block;
+}
+.popupArrow {
+	width: "10px";
+	height: "10px";
+	background: "inherit";
+	position: "absolute";
+}

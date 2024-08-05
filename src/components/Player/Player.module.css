@@ -1,0 +1,252 @@
+.playerWrapper {
+	position: relative;
+	font-size: medium;
+	min-width: 350px;
+	border-radius: 1em;
+	overflow: hidden;
+	--hue: 0;
+	--white: hsl(0, 0%, 100%);
+	--lt-gray: hsl(var(--hue), 10%, 95%);
+	--primary0: hsl(var(--hue), 90%, 95%);
+	--primary1: hsl(var(--hue), 90%, 90%);
+	--primary3: hsl(var(--hue), 90%, 50%);
+	--primary4: hsl(var(--hue), 90%, 30%);
+	--primary5: hsl(var(--hue), 90%, 10%);
+	--trans-dur: 0.3s;
+}
+
+.video {
+	width: 100%;
+	height: 100%;
+	background: black;
+	@apply aspect-video;
+}
+
+.videoProgressPontainer {
+	position: relative;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 100%;
+	height: 0.2em;
+	background-color: #a1a1a1; /* Background for the unloaded part */
+	border-radius: 4px;
+}
+.videoLoadedProgress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background-color: #e6e6e6; /* Background for the loaded part */
+}
+
+.videoProgress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 0.2em;
+	background: transparent; /* Make the background of the range input transparent */
+}
+
+.videoControlsWrapper {
+	position: absolute;
+	background: linear-gradient(#00000019, #00000099);
+	z-index: 2;
+	bottom: 0px;
+	width: 100%;
+	color: #ececec;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+	transition: opacity ease-in 1s;
+}
+
+.videoControlsWrapper:hover {
+	transition: opacity ease-in 100ms;
+}
+
+.videoOptionsWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5em;
+	gap: 8px;
+}
+.wideFull {
+	@apply w-full;
+}
+.wFull {
+	@apply w-full;
+}
+.msAuto {
+	@apply ml-auto;
+}
+.mxW16 {
+	/* /* @apply max-w-10; */
+}
+.slate600 {
+	@apply text-slate-600;
+}
+.popupHover {
+	@apply hover:cursor-pointer hover:bg-slate-100;
+}
+.popupHoverSlate200 {
+	@apply bg-slate-200;
+}
+.blok {
+	@apply block;
+}
+.overlayIcon {
+	@apply text-slate-200 shadow-xl relative top-[50%] left-[50%];
+}
+
+.playerOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.progressDisplayText {
+	font-size: small;
+}
+
+/* CSS variables */
+/* :root {
+	--hue: 0;
+	--white: hsl(0, 0%, 100%);
+	--lt-gray: hsl(var(--hue), 10%, 95%);
+	--primary0: hsl(var(--hue), 90%, 95%);
+	--primary1: hsl(var(--hue), 90%, 90%);
+	--primary3: hsl(var(--hue), 90%, 50%);
+	--primary4: hsl(var(--hue), 90%, 30%);
+	--primary5: hsl(var(--hue), 90%, 10%);
+	--trans-dur: 0.3s;
+} */
+/* Main styles */
+
+.rangeInput {
+	--percent: 50%;
+	/* background-color: var(--primary1); */
+	background-image: linear-gradient(var(--primary3), var(--primary3));
+	background-repeat: no-repeat;
+	border-radius: 0.2em;
+	display: block;
+	width: 100%;
+	height: 0.2em;
+	transition: background-color var(--trans-dur);
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-tap-highlight-color: transparent;
+}
+.rangeInput:focus {
+	outline: transparent;
+}
+/* WebKit */
+.rangeInput::-webkit-slider-thumb {
+	background-color: var(--white);
+	border: 0;
+	border-radius: 50%;
+	box-shadow: 0 0.125em 0.5em hsl(0, 0%, 0%, 0.3);
+	width: 1em;
+	height: 1em;
+	transition: background-color 0.15s linear;
+	-webkit-appearance: none;
+	appearance: none;
+}
+.rangeInput:focus::-webkit-slider-thumb,
+.rangeInput::-webkit-slider-thumb:hover {
+	background-color: var(--lt-gray);
+}
+.rangeInput:hover::-webkit-slider-thumb,
+.rangeInput::-webkit-slider-thumb:hover {
+	opacity: 1;
+}
+/* Firefox */
+.rangeInput::-moz-range-thumb {
+	opacity: 0;
+	background-color: var(--white);
+	border: 0;
+	border-radius: 50%;
+	box-shadow: 0 0.125em 0.5em hsl(0, 0%, 0%, 0.3);
+	width: 1em;
+	height: 1em;
+	transition: background-color 0.15s linear;
+}
+.rangeInput:focus::-moz-range-thumb,
+.rangeInput::-moz-range-thumb:hover {
+	background-color: var(--lt-gray);
+}
+.rangeInput:hover::-moz-range-thumb,
+.rangeInput::-moz-range-thumb:hover {
+	opacity: 1;
+}
+/* Continue main styles */
+
+.rangeOutput,
+.rangeOutput:after {
+	position: absolute;
+}
+
+.rangeOutput,
+.rangeOutput:after {
+	transform: translateX(-50%);
+}
+.rangeOutput {
+	display: none;
+	--percent: 50%;
+	background-color: var(--primary3);
+	border-radius: 0.25em;
+	color: var(--white);
+	padding: 0em 0.2em;
+	bottom: calc(100% + 0.8em);
+	left: var(--percent);
+	text-align: center;
+	transition: background-color var(--trans-dur);
+	font-size: small;
+}
+.rangeOutput:after {
+	border-top: 0.3em solid var(--primary3);
+	border-left: 0.3em solid transparent;
+	border-right: 0.3em solid transparent;
+	content: "";
+	display: block;
+	top: calc(100% - 1px);
+	left: 50%;
+	width: 0;
+	height: 0;
+}
+.rangeOutput-value-track {
+	inset: 0;
+	/* overflow: hidden; */
+}
+.rangeOutput-values {
+	--transX: 0;
+	display: block;
+	align-items: center;
+	white-space: nowrap;
+	top: 0;
+	left: 0;
+	height: 100%;
+	transform: translateX(var(--transX));
+	transition: transform 0.15s linear;
+}
+
+/* `:focus-visible` support */
+@supports selector(:focus-visible) {
+	.rangeInput:focus::-webkit-slider-thumb {
+		background-color: var(--white);
+	}
+	.rangeInput:focus-visible::-webkit-slider-thumb,
+	.rangeInput::-webkit-slider-thumb:hover {
+		background-color: var(--lt-gray);
+	}
+	.rangeInput:focus::-moz-range-thumb {
+		background-color: var(--white);
+	}
+	.rangeInput:focus-visible::-moz-range-thumb,
+	.rangeInput::-moz-range-thumb:hover {
+		background-color: var(--lt-gray);
+	}
+}

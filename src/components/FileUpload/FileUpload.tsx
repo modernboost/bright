@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+import styles from './FileUpload.module.css'
 
 export default function FileUpload({
 	onFileSelect,
@@ -59,18 +60,7 @@ export default function FileUpload({
 	}
 
 	return (
-		<div
-			className='border rounded-md'
-			style={{
-				position: "relative",
-				justifyContent: "center",
-				display: "flex",
-				alignItems: "center",
-				flexDirection: "column",
-				padding: "0.1em",
-				gap: "0.5em",
-			}}
-		>
+		<div className={styles.fileUpload}>
 			<input
 				type='text'
 				readOnly
@@ -97,7 +87,7 @@ export default function FileUpload({
 				{!uploading && (
 					<button
 						type='button'
-						className='hover:underline'
+						className={styles.lineunder}
 						style={{
 							position: "relative",
 						}}
@@ -123,7 +113,7 @@ export default function FileUpload({
 				{uploadedUrl && (
 					<button
 						type='button'
-						className='hover:underline'
+						className={StyleSheet.underline}
 						onClick={deleteFile}
 					>
 						Delete
@@ -132,7 +122,7 @@ export default function FileUpload({
 				{uploading && (
 					<button
 						type='button'
-						className='hover:underline'
+						className={StyleSheet.underline}
 						onClick={cancelUpload}
 					>
 						Cancel

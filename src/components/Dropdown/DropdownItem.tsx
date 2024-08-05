@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { ReactNode, useContext } from "react";
 import { DropdownContext } from "./Dropdown";
+import styles from './Dropdown.module.css'
 
 export default function DropdownItem({
   icon,
@@ -31,7 +32,7 @@ export default function DropdownItem({
       ) : (
         <div
         {...rest}
-          className=" w-full  rounded p-2 hover:bg-slate-200 hover:cursor-pointer b-dropdown-item"
+          className={styles.dropdownItem}
         >
           {icon}
           {text}

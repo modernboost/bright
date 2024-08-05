@@ -8,7 +8,7 @@ import tailwindcss from "tailwindcss";
 import postcss from "rollup-plugin-postcss";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
-import libCss from 'vite-plugin-libcss';
+import libCss from "vite-plugin-libcss";
 export default defineConfig({
 	css: {
 		modules: {
@@ -16,12 +16,11 @@ export default defineConfig({
 		},
 	},
 	build: {
-    cssCodeSplit: true,
+		cssCodeSplit: true,
 		lib: {
 			entry: path.resolve(__dirname, "index.ts"),
 			name: "ViteButton",
 			fileName: (format) => `index.${format}.js`,
-      
 		},
 		rollupOptions: {
 			external: ["react", "react-dom"],
@@ -30,10 +29,11 @@ export default defineConfig({
 					react: "React",
 					"react-dom": "ReactDOM",
 				},
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'styles/[name].[hash][extname]';
-          return 'assets/[name].[hash][extname]';
-        },
+				assetFileNames: (assetInfo) => {
+					if (assetInfo.name === "style.css")
+						return "styles/[name].[hash][extname]";
+					return "assets/[name].[hash][extname]";
+				},
 			},
 		},
 		sourcemap: true,
@@ -44,13 +44,14 @@ export default defineConfig({
 		dts(),
 		css(),
 		postcss({
-			extract: true,
 			plugins: [tailwindcss, autoprefixer],
+			inject: true, // Injects styles into the <head> of the document
+			minimize: true, // Optional: Minimize the CSS output
 		}),
 		cssInjectedByJsPlugin({}),
 		libCss({
-			include: '**/*', // Include all entry files
+			include: "**/*", // Include all entry files
 			// exclude: 'src/utils/*', // Exclude entry files in the "utils" directory
-		  })
+		}),
 	],
 });

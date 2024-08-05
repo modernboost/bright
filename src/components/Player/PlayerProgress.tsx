@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { PlayerContext } from "./Player";
 import { secondsToTimeString } from "./helpers";
+import styles from "./Player.module.css";
 
 export default function PlayerProgress() {
 	const { dispatch, player: playerCtx } = useContext(PlayerContext);
@@ -32,9 +33,9 @@ export default function PlayerProgress() {
 		setOver(false);
 	}
 	return (
-		<div className='b-video-progress-container'>
+		<div className={styles.videoProgressContainer}>
 			<div
-				className='b-video-loaded-progress'
+				className={styles.videoLoadedProgress}
 				style={{
 					width: `${playerCtx.loadedPosition / (playerCtx.duration / 100)}%`,
 				}}
@@ -51,18 +52,20 @@ export default function PlayerProgress() {
 				}}
 				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
-				className='w-full b-video-progress range__input'
+				className={
+					styles.wFull + " " + styles.videoProgress + " " + styles.rangeInput
+				}
 			/>
 			<div
-				className={`range__output ${over ? "block" : ""}`}
+				className={`${styles.rangeOutput}  ${over ? styles.blok : ""}`}
 				style={{
 					left: left,
 				}}
 				aria-hidden='true'
 				data-tip
 			>
-				<div className='range__output-value-track'>
-					<div className=' range__output-values' data-values>
+				<div className={styles.rageOutputValueTrack}>
+					<div className={styles.rageOutputValues} data-values>
 						{time}
 					</div>
 				</div>
