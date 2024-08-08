@@ -85,7 +85,7 @@ export default function PlayerControls() {
 				{/* <Popup placement='top'> */}
 				<div className={styles.mxW16}>
 					<input
-						className={styles.widthFull}
+						className={styles.wFull}
 						type='range'
 						name=''
 						id=''

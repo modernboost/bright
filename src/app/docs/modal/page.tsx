@@ -11,7 +11,7 @@ export default function Page() {
 				<Button>Open Modal</Button>
 				<Modal open={open} onChange={setOpen}>
 					<div>this is the Modal content</div>
-				</Modal>
+				</Modal>paly
 			</div>
 		</>
 	);

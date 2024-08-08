@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import PlayerControls from "./PlayerControls";
 import RxPlayer from "rx-player";
@@ -229,7 +230,6 @@ export default function Player({
 		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper}>
 			<PlayerContext.Provider value={{ dispatch, player }}>
 				<video
-					poster='/pdfIcon.png'
 					ref={videoRef}
 					className={styles.video}
 					src={src}
@@ -257,8 +257,8 @@ function reducer(state, action) {
 			if (state._player.getPlayerState() === "PLAYING") {
 				state._player.pause();
 				state.onPause && state.onPause(state._player);
-				state.setPlayer((prev) => ({ ...prev, state: "PLAYING" }));
-			} else {
+				state.setPlayer((prev) => ({ ...prev, state: "PAUSED" }));
+			} else if (state._player.getPlayerState() === "PAUSED"|| state._player.getPlayerState() === "LOADED") {
 				state._player.play();
 				state.onPlay && state.onPlay(state._player);
 				// state.setPlayer((prev) => ({ ...prev, state: 	"STOPED" }));
