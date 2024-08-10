@@ -16,7 +16,11 @@ export default function PlayerOverLay() {
 
 	useEffect(() => {
 		console.log("playerCtx.state", playerCtx.state);
-		if (playerCtx.state == "STOPPED" || playerCtx.state == "PAUSED") {
+		if (
+			playerCtx.state == "STOPPED" ||
+			playerCtx.state == "PAUSED" ||
+			playerCtx.state == "LOADED"
+		) {
 			setIcon(
 				<IconPlayerPlay
 					size={45}
@@ -30,61 +34,10 @@ export default function PlayerOverLay() {
 			playerCtx.state == "LOADING" ||
 			playerCtx.state == "BUFFERING" ||
 			playerCtx.state == "RELOADING" ||
-			playerCtx.state == "SEEKING" 
-
+			playerCtx.state == "SEEKING" ||
+			playerCtx.state == ""
 		) {
-			setIcon(
-				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
-					<radialGradient
-						id='a11'
-						cx='.66'
-						fx='.66'
-						cy='.3125'
-						fy='.3125'
-						gradientTransform='scale(1.5)'
-					>
-						<stop offset='0' stop-color='#FFFFFF'></stop>
-						<stop offset='.3' stop-color='#FFFFFF' stop-opacity='.9'></stop>
-						<stop offset='.6' stop-color='#FFFFFF' stop-opacity='.6'></stop>
-						<stop offset='.8' stop-color='#FFFFFF' stop-opacity='.3'></stop>
-						<stop offset='1' stop-color='#FFFFFF' stop-opacity='0'></stop>
-					</radialGradient>
-					<circle
-						transform-origin='center'
-						fill='none'
-						stroke='url(#a11)'
-						stroke-width='19'
-						stroke-linecap='round'
-						stroke-dasharray='200 1000'
-						stroke-dashoffset='0'
-						cx='100'
-						cy='100'
-						r='70'
-					>
-						<animateTransform
-							type='rotate'
-							attributeName='transform'
-							calcMode='spline'
-							dur='2'
-							values='360;0'
-							keyTimes='0;1'
-							keySplines='0 0 1 1'
-							repeatCount='indefinite'
-						></animateTransform>
-					</circle>
-					<circle
-						transform-origin='center'
-						fill='none'
-						opacity='.2'
-						stroke='#FFFFFF'
-						stroke-width='19'
-						stroke-linecap='round'
-						cx='100'
-						cy='100'
-						r='70'
-					></circle>
-				</svg>
-			);
+			setIcon(<LoadingIcon />);
 		} else {
 			setIcon(null);
 		}
@@ -95,11 +48,68 @@ export default function PlayerOverLay() {
 			onDoubleClick={handleOverlayDoubleClick}
 			onClick={handleOverlayClick}
 		>
-			<div style={
-				{
-					width: "4em"
-				}
-			}>{icon}</div>
+			<div
+				style={{
+					width: "4em",
+				}}
+			>
+				{icon}
+			</div>
 		</div>
+	);
+}
+
+function LoadingIcon() {
+	return (
+		<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
+			<radialGradient
+				id='a11'
+				cx='.66'
+				fx='.66'
+				cy='.3125'
+				fy='.3125'
+				gradientTransform='scale(1.5)'
+			>
+				<stop offset='0' stopColor='#FFFFFF'></stop>
+				<stop offset='.3' stopColor='#FFFFFF' stopOpacity='.9'></stop>
+				<stop offset='.6' stopColor='#FFFFFF' stopOpacity='.6'></stop>
+				<stop offset='.8' stopColor='#FFFFFF' stopOpacity='.3'></stop>
+				<stop offset='1' stopColor='#FFFFFF' stopOpacity='0'></stop>
+			</radialGradient>
+			<circle
+				transformOrigin='center'
+				fill='none'
+				stroke='url(#a11)'
+				strokeWidth='19'
+				strokeLinecap='round'
+				strokeDasharray='200 1000'
+				strokeDashoffset='0'
+				cx='100'
+				cy='100'
+				r='70'
+			>
+				<animateTransform
+					type='rotate'
+					attributeName='transform'
+					calcMode='spline'
+					dur='2'
+					values='360;0'
+					keyTimes='0;1'
+					keySplines='0 0 1 1'
+					repeatCount='indefinite'
+				></animateTransform>
+			</circle>
+			<circle
+				transformOrigin='center'
+				fill='none'
+				opacity='.2'
+				stroke='#FFFFFF'
+				strokeWidth='19'
+				strokeLinecap='round'
+				cx='100'
+				cy='100'
+				r='70'
+			></circle>
+		</svg>
 	);
 }

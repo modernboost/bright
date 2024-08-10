@@ -99,38 +99,42 @@ export default function PlayerControls() {
 				{/* </Popup> */}
 
 				{/* Quality */}
-				<Button className={styles.mlAuto} type='button'>
-					{playerCtx?.autoBitRate
-						? "Auto"
-						: playerCtx?.currentBitRate?.resolution}
-				</Button>
-				<Popup trigger='hover'>
-					<div className={styles.slate600}>
-						<div
-							className={`${styles.popupHover} ${
-								playerCtx.autoBitRate ? styles.popupHoverSlate200 : ""
-							} `}
-							key={0}
-							onClick={setAutobitRate}
-						>
-							Auto
-						</div>
-						{playerCtx?.bitRates?.map((bitRate, i) => (
-							<div
-								className={`${styles.popupHover} ${
-									bitRate.id == playerCtx?.currentBitRate?.id &&
-									!playerCtx.autoBitRate
-										? styles.popupHoverSlate200
-										: ""
-								} `}
-								key={++i}
-								onClick={() => setBitRate(bitRate)}
-							>
-								{bitRate.resolution}
+				{(playerCtx?.autoBitRate || playerCtx?.bitRates) && (
+					<>
+						<Button className={styles.mlAuto} type='button'>
+							{playerCtx?.autoBitRate
+								? "Auto"
+								: playerCtx?.currentBitRate?.resolution}
+						</Button>
+						<Popup trigger='hover'>
+							<div className={styles.slate600}>
+								<div
+									className={`${styles.popupHover} ${
+										playerCtx.autoBitRate ? styles.popupHoverSlate200 : ""
+									} `}
+									key={0}
+									onClick={setAutobitRate}
+								>
+									Auto
+								</div>
+								{playerCtx?.bitRates?.map((bitRate, i) => (
+									<div
+										className={`${styles.popupHover} ${
+											bitRate.id == playerCtx?.currentBitRate?.id &&
+											!playerCtx.autoBitRate
+												? styles.popupHoverSlate200
+												: ""
+										} `}
+										key={++i}
+										onClick={() => setBitRate(bitRate)}
+									>
+										{bitRate.resolution}
+									</div>
+								))}
 							</div>
-						))}
-					</div>
-				</Popup>
+						</Popup>
+					</>
+				)}
 
 				{/* Playback Speed */}
 				<Button type='button'> {playerCtx?.playBackRate ?? "1"}X </Button>

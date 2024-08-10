@@ -40,6 +40,7 @@ export default function PlayerProgress() {
 					width: `${playerCtx.loadedPosition / (playerCtx.duration / 100)}%`,
 				}}
 			></div>
+			<div className={styles.videoProgressBackground}></div>
 			<input
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
@@ -48,7 +49,9 @@ export default function PlayerProgress() {
 				value={playerCtx.position ?? 0}
 				min={0}
 				style={{
-					backgroundSize: `${(playerCtx.position * 100) / playerCtx.duration}%`,
+					backgroundSize: `${
+						(playerCtx.position * 100) / playerCtx.duration
+					}%, 0.2em`,
 				}}
 				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
@@ -57,9 +60,10 @@ export default function PlayerProgress() {
 				}
 			/>
 			<div
-				className={`${styles.rangeOutput}  ${over ? styles.blok : ""}`}
+				className={`${styles.rangeOutput}  `}
 				style={{
 					left: left,
+					display: over ? "block" : "none",
 				}}
 				aria-hidden='true'
 				data-tip

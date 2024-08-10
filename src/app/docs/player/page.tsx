@@ -10,14 +10,14 @@ export default function Page() {
 					src={"http://localhost:5186/api/Assets/stream/32"}
 				/>
 			</div>
-			<div>
+			{/* <div>
 				<Player
 					srcType='directfile'
 					src={
 						"https://health.afghan-wireless.com/MEDIA/live/Live/Live10/LifeElevan4.mp4"
 					}
 				/>
-			</div>
+			</div> */}
 		</>
 	);
 }

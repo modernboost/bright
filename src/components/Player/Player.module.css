@@ -27,27 +27,34 @@
 	padding-left: 10px;
 	padding-right: 10px;
 	width: 100%;
-	height: 0.2em;
-	background-color: #a1a1a1; /* Background for the unloaded part */
+	height: 1em;
 	border-radius: 4px;
 }
-.videoLoadedProgress {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	background-color: #e6e6e6; /* Background for the loaded part */
-}
-
+.videoLoadedProgress,
+.videoProgressBackground,
 .videoProgress {
 	position: absolute;
 	top: 0;
 	left: 0;
+	height: 0.2em;
+	margin: 0;
+	padding: 0;
+}
+.videoLoadedProgress,
+.videoProgressBackground {
+	transform: translate(0, 4px);
+}
+
+.videoProgress {
 	-webkit-appearance: none;
 	appearance: none;
 	width: 100%;
-	height: 0.2em;
+	height: 1em;
 	background: transparent; /* Make the background of the range input transparent */
+}
+.videoProgressBackground {
+	background-color: #a1a1a1; /* Background for the unloaded part */
+	width: 100%;
 }
 
 .videoControlsWrapper {
@@ -57,8 +64,6 @@
 	bottom: 0px;
 	width: 100%;
 	color: #ececec;
-	padding-left: 0.2em;
-	padding-right: 0.2em;
 	transition: opacity ease-in 1s;
 }
 
@@ -115,20 +120,6 @@
 	font-size: small;
 }
 
-/* CSS variables */
-/* :root {
-	--hue: 0;
-	--white: hsl(0, 0%, 100%);
-	--lt-gray: hsl(var(--hue), 10%, 95%);
-	--primary0: hsl(var(--hue), 90%, 95%);
-	--primary1: hsl(var(--hue), 90%, 90%);
-	--primary3: hsl(var(--hue), 90%, 50%);
-	--primary4: hsl(var(--hue), 90%, 30%);
-	--primary5: hsl(var(--hue), 90%, 10%);
-	--trans-dur: 0.3s;
-} */
-/* Main styles */
-
 .rangeInput {
 	--percent: 50%;
 	/* background-color: var(--primary1); */
@@ -137,7 +128,7 @@
 	border-radius: 0.2em;
 	display: block;
 	width: 100%;
-	height: 0.2em;
+	height: 0.8em;
 	transition: background-color var(--trans-dur);
 	-webkit-appearance: none;
 	appearance: none;
@@ -175,7 +166,6 @@
 	box-shadow: 0 0.125em 0.5em hsl(0, 0%, 0%, 0.3);
 	width: 1em;
 	height: 1em;
-	transition: background-color 0.15s linear;
 }
 .rangeInput:focus::-moz-range-thumb,
 .rangeInput::-moz-range-thumb:hover {
@@ -203,7 +193,7 @@
 	border-radius: 0.25em;
 	color: var(--white);
 	padding: 0em 0.2em;
-	bottom: calc(100% + 0.8em);
+	bottom: calc(100% + 0.4em);
 	left: var(--percent);
 	text-align: center;
 	transition: background-color var(--trans-dur);

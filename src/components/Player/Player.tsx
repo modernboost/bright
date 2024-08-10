@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import PlayerControls from "./PlayerControls";
 import RxPlayer from "rx-player";
@@ -229,11 +229,7 @@ export default function Player({
 	return (
 		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper}>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video
-					ref={videoRef}
-					className={styles.video}
-					src={src}
-				/>
+				<video ref={videoRef} className={styles.video} src={src} />
 				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>
@@ -258,7 +254,10 @@ function reducer(state, action) {
 				state._player.pause();
 				state.onPause && state.onPause(state._player);
 				state.setPlayer((prev) => ({ ...prev, state: "PAUSED" }));
-			} else if (state._player.getPlayerState() === "PAUSED"|| state._player.getPlayerState() === "LOADED") {
+			} else if (
+				state._player.getPlayerState() === "PAUSED" ||
+				state._player.getPlayerState() === "LOADED"
+			) {
 				state._player.play();
 				state.onPlay && state.onPlay(state._player);
 				// state.setPlayer((prev) => ({ ...prev, state: 	"STOPED" }));
