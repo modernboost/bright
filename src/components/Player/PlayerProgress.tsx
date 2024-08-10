@@ -47,11 +47,11 @@ export default function PlayerProgress() {
 				onMouseMove={handleMouseOver}
 				onChange={(event) => setPosition(event.target.value)}
 				value={playerCtx.position ?? 0}
-				min={0}
+			min={0}
 				style={{
 					backgroundSize: `${
 						(playerCtx.position * 100) / playerCtx.duration
-					}%, 0.2em`,
+					}% 0.2em`,
 				}}
 				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
