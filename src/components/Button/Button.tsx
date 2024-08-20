@@ -1,4 +1,5 @@
 "use client";
+import React, { ReactNode, ReactPropTypes } from "react";
 import styles from "./Button.module.css";
 export default function Button({
 	children,
@@ -10,9 +11,9 @@ export default function Button({
 }) {
 	return (
 		<button
-			className={styles.button}
-			onClick={(e) => onClick(e)}
-			{...restProps}
+		onClick={(e) => onClick(e)}
+		{...restProps}
+		className={styles.button +" "+ restProps.className}
 		>
 			{children}
 		</button>

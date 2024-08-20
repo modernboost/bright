@@ -55,7 +55,7 @@ export default function PlayerControls() {
 			<PlayerProgress />
 			<div className={styles.videoOptionsWrapper}>
 				{/* playe and pause btn */}
-				<Button type='button' onClick={togglePlaying}>
+				<Button className={styles.btn} type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
 						<IconPlayerPause />
 					) : (
@@ -68,17 +68,21 @@ export default function PlayerControls() {
 				</div>
 
 				{/* Go to Previous Video */}
-				<Button onClick={backward} type='button'>
+				<Button onClick={backward} className={styles.btn} type='button'>
 					<IconRewindBackward10 />
 				</Button>
 
 				{/* Go to Next video  */}
-				<Button onClick={forward} type='button'>
+				<Button onClick={forward} type='button' className={styles.btn}>
 					<IconRewindForward10 />
 				</Button>
 
 				{/* Mute and Unmute */}
-				<Button onClick={() => toggleMuted()} type='button'>
+				<Button
+					onClick={() => toggleMuted()}
+					type='button'
+					className={styles.btn}
+				>
 					{playerCtx.muted ? <IconVolumeOff /> : <IconVolume />}{" "}
 				</Button>
 
@@ -101,14 +105,26 @@ export default function PlayerControls() {
 				{/* Quality */}
 				{(playerCtx?.autoBitRate || playerCtx?.bitRates) && (
 					<>
-						<Button className={styles.mlAuto} type='button'>
+						<Button className={styles.mlAuto + " " + styles.btn} type='button'>
 							{playerCtx?.autoBitRate
 								? "Auto"
-								: playerCtx?.currentBitRate?.resolution}
+								: playerCtx?.currentBitRate?.quality + "p"}
 						</Button>
 						<Popup trigger='hover'>
-							<div className={styles.slate600}>
+							<div
+								style={{
+									padding: "0px",
+									display: "flex",
+									flexDirection: "column",
+									gap: "0.1rem",
+								}}
+								className={styles.slate600}
+							>
 								<div
+									style={{
+										padding: "0.4rem",
+										borderRadius: "0.4rem",
+									}}
 									className={`${styles.popupHover} ${
 										playerCtx.autoBitRate ? styles.popupHoverSlate200 : ""
 									} `}
@@ -119,6 +135,10 @@ export default function PlayerControls() {
 								</div>
 								{playerCtx?.bitRates?.map((bitRate, i) => (
 									<div
+										style={{
+											padding: "0.4rem",
+											borderRadius: "0.4rem",
+										}}
 										className={`${styles.popupHover} ${
 											bitRate.id == playerCtx?.currentBitRate?.id &&
 											!playerCtx.autoBitRate
@@ -128,7 +148,7 @@ export default function PlayerControls() {
 										key={++i}
 										onClick={() => setBitRate(bitRate)}
 									>
-										{bitRate.resolution}
+										{bitRate.quality}p
 									</div>
 								))}
 							</div>
@@ -137,11 +157,27 @@ export default function PlayerControls() {
 				)}
 
 				{/* Playback Speed */}
-				<Button type='button'> {playerCtx?.playBackRate ?? "1"}X </Button>
+				<Button type='button' className={styles.btn}>
+					{" "}
+					{playerCtx?.playBackRate ?? "1"}X{" "}
+				</Button>
 				<Popup trigger='hover'>
-					<div className={styles.slate600}>
+					<div
+						style={{
+							padding: "0px",
+							display: "flex",
+							gap: "0.1rem",
+
+							flexDirection: "column",
+						}}
+						className={styles.slate600}
+					>
 						{speedList.map((speed, i) => (
 							<div
+								style={{
+									padding: "0.4rem",
+									borderRadius: "0.4rem",
+								}}
 								key={i}
 								className={`${styles.popupHover} ${
 									speed == playerCtx.playBackRate && styles.popupHover
@@ -160,7 +196,7 @@ export default function PlayerControls() {
 				</Button> */}
 
 				{/* Full screen */}
-				<Button type='button' onClick={setFullScreen}>
+				<Button type='button' className={styles.btn} onClick={setFullScreen}>
 					<IconMaximize />
 				</Button>
 			</div>

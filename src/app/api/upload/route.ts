@@ -5,7 +5,7 @@ export async function POST(req: Request) {
 	const form = await req.formData();
 
 	const response = await axios
-		.post("http://localhost:5186/api/Assets/upload?userId=1", form, {
+		.post("http://localhost:10000/api/Assets/upload?userId=1", form, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

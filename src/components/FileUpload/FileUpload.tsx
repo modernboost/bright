@@ -1,5 +1,7 @@
+"use client";
 import { ReactNode, useState } from "react";
-import styles from './FileUpload.module.css'
+import styles from "./FileUpload.module.css";
+import {Button} from "../index.ts";
 
 export default function FileUpload({
 	onFileSelect,
@@ -63,9 +65,9 @@ export default function FileUpload({
 		<div className={styles.fileUpload}>
 			<input
 				type='text'
+				hidden
 				readOnly
 				value={uploadedUrl ?? ""}
-				hidden
 				name={name}
 			/>
 			<Preview
@@ -85,9 +87,8 @@ export default function FileUpload({
 				}}
 			>
 				{!uploading && (
-					<button
+					<Button
 						type='button'
-						className={styles.lineunder}
 						style={{
 							position: "relative",
 						}}
@@ -102,31 +103,28 @@ export default function FileUpload({
 								left: 0,
 								opacity: "0",
 							}}
-							className='text'
 							multiple={multiple}
 							type='file'
 							accept={accept}
 							onChange={fileChange}
 						/>
-					</button>
+					</Button>
 				)}
 				{uploadedUrl && (
-					<button
+					<Button
 						type='button'
-						className={StyleSheet.underline}
 						onClick={deleteFile}
 					>
 						Delete
-					</button>
+					</Button>
 				)}
 				{uploading && (
-					<button
+					<Button
 						type='button'
-						className={StyleSheet.underline}
 						onClick={cancelUpload}
 					>
 						Cancel
-					</button>
+					</Button>
 				)}
 			</div>
 		</div>

@@ -1,8 +1,11 @@
 .playerWrapper {
+	@apply flex;
 	position: relative;
+	box-sizing: border-box;
 	font-size: medium;
+
 	min-width: 350px;
-	border-radius: 1em;
+	border-radius: 1rem;
 	overflow: hidden;
 	--hue: 0;
 	--white: hsl(0, 0%, 100%);
@@ -15,19 +18,23 @@
 	--trans-dur: 0.3s;
 }
 
+.btn {
+	@apply p-1 flex justify-center items-center min-h-full h-8;
+}
 .video {
 	width: 100%;
 	height: 100%;
 	background: black;
 	@apply aspect-video;
 }
-
+.videoProgressContainerWrapper {
+	@apply flex mx-2;
+}
 .videoProgressContainer {
+	box-sizing: border-box;
 	position: relative;
-	padding-left: 10px;
-	padding-right: 10px;
 	width: 100%;
-	height: 1em;
+	height: 1rem;
 	border-radius: 4px;
 }
 .videoLoadedProgress,
@@ -36,21 +43,24 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 0.2em;
 	margin: 0;
 	padding: 0;
 }
 .videoLoadedProgress,
 .videoProgressBackground {
-	transform: translate(0, 4px);
+	top: 50%;
+	height: 0.2rem;
+	transform: translateY(-50%);
 }
 
 .videoProgress {
 	-webkit-appearance: none;
 	appearance: none;
 	width: 100%;
-	height: 1em;
+	height: 100% !important;
 	background: transparent; /* Make the background of the range input transparent */
+	background-position-y: center;
+	background-size: 0rem 0.2rem;
 }
 .videoProgressBackground {
 	background-color: #a1a1a1; /* Background for the unloaded part */
@@ -72,10 +82,10 @@
 }
 
 .videoOptionsWrapper {
+	@apply m-1  pt-0 mt-0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.5em;
 	gap: 8px;
 }
 .wideFull {
@@ -94,7 +104,7 @@
 	@apply text-slate-600;
 }
 .popupHover {
-	@apply hover:cursor-pointer hover:bg-slate-100;
+	@apply hover:cursor-pointer hover:bg-slate-200;
 }
 .popupHoverSlate200 {
 	@apply bg-slate-200;

@@ -33,6 +33,8 @@ export default function PlayerProgress() {
 		setOver(false);
 	}
 	return (
+		<div className={styles.videoProgressContainerWrapper}>
+
 		<div className={styles.videoProgressContainer}>
 			<div
 				className={styles.videoLoadedProgress}
@@ -47,11 +49,11 @@ export default function PlayerProgress() {
 				onMouseMove={handleMouseOver}
 				onChange={(event) => setPosition(event.target.value)}
 				value={playerCtx.position ?? 0}
-			min={0}
+				min={0}
 				style={{
 					backgroundSize: `${
 						(playerCtx.position * 100) / playerCtx.duration
-					}% 0.2em`,
+					}% 0.2rem`,
 				}}
 				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
 				type='range'
@@ -75,5 +77,7 @@ export default function PlayerProgress() {
 				</div>
 			</div>
 		</div>
+		</div>
+
 	);
 }

@@ -29,6 +29,7 @@ interface Player {
 		frameRate: number;
 		resolution: string;
 		bitRate: string;
+		quality: string;
 	}[];
 	autoBitRate: boolean;
 	currentBitRate: {
@@ -39,6 +40,7 @@ interface Player {
 		resolution: string;
 		current: boolean;
 		bitRate: string;
+		quality: string;
 	};
 	pause: () => void;
 	play: () => void;
@@ -180,6 +182,8 @@ export default function Player({
 				bitRates: state?.representations.map((r) => ({
 					...r,
 					resolution: `${r.width}X${r.height}`,
+					bitRate: r.bitrate,
+					quality: `${r.width}`,
 				})),
 			}));
 		});
@@ -191,6 +195,8 @@ export default function Player({
 				currentBitRate: {
 					...state,
 					resolution: `${state.width}X${state.height}`,
+					bitRate: state?.bitRate,
+					quality: `${state?.width}`,
 				},
 			}));
 		});

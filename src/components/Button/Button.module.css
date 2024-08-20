@@ -1,4 +1,3 @@
-
 .button {
-	@apply bg-none rounded;
+	@apply bg-gray-100 text-gray-800 rounded border border-slate-100  p-2 ;
 }
