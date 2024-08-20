@@ -140,7 +140,7 @@
 	@apply block;
 }
 .overlayIcon {
-	@apply text-slate-200 shadow-xl relative top-[50%] left-[50%];
+	@apply text-slate-200 shadow-xl;
 }
 
 .playerOverlay {

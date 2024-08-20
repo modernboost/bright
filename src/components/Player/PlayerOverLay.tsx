@@ -12,24 +12,19 @@ export default function PlayerOverLay() {
 		dispatch({ type: "toggle_playing" });
 	}
 
-	const [icon, setIcon] = useState(null);
+	const [icon, setIcon] = useState(<LoadingIcon />);
 
 	useEffect(() => {
 		console.log("playerCtx.state", playerCtx.state);
 		if (
 			playerCtx.state == "STOPPED" ||
 			playerCtx.state == "PAUSED" ||
+			playerCtx.state == "ENDED" ||
 			playerCtx.state == "LOADED"
 		) {
-			setIcon(
-				<IconPlayerPlay
-					size={45}
-					className={styles.overlayIcon}
-					style={{
-						transform: "translate(-50%, -50%)",
-					}}
-				/>
-			);
+			setIcon(<IconPlayerPlay size={45} className={styles.overlayIcon} />);
+		} else if (playerCtx.state == "PLAYING") {
+			setIcon(null);
 		} else if (
 			playerCtx.state == "LOADING" ||
 			playerCtx.state == "BUFFERING" ||
@@ -39,7 +34,7 @@ export default function PlayerOverLay() {
 		) {
 			setIcon(<LoadingIcon />);
 		} else {
-			setIcon(null);
+			setIcon(<LoadingIcon />);
 		}
 	}, [playerCtx.state]);
 	return (
@@ -50,7 +45,8 @@ export default function PlayerOverLay() {
 		>
 			<div
 				style={{
-					width: "4em",
+					position: "relative",
+					display: "flex",
 				}}
 			>
 				{icon}
