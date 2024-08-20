@@ -243,6 +243,9 @@ export default function Player({
 	);
 }
 function reducer(state, action) {
+	//not initialized yet
+	if (!state._player && action.type !== "set_player") return;
+
 	switch (action.type) {
 		case "set_player":
 			return {

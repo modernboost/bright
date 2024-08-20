@@ -21,6 +21,33 @@
 .btn {
 	@apply p-1 flex justify-center items-center min-h-full h-8;
 }
+.volumeInput {
+	@apply w-full rounded-lg appearance-none cursor-pointer
+	[&::-webkit-slider-runnable-track]:rounded-full 
+	[&::-webkit-slider-runnable-track]:bg-gray-400 
+	[&::-webkit-slider-runnable-track]:h-[0.2rem] 
+	[&::-webkit-slider-thumb]:appearance-none 
+	[&::-webkit-slider-thumb]:w-3 
+	[&::-webkit-slider-thumb]:h-3 
+	[&::-webkit-slider-thumb]:bg-white 
+	[&::-webkit-slider-thumb]:rounded-full 
+	[&::-webkit-slider-thumb]:border 
+	[&::-webkit-slider-thumb]:border-none 
+	[&::-webkit-slider-runnable-track]:bg-gradient-to-r from-red-500 to-gray-200
+	[&::-moz-range-thumb]:w-3 
+	[&::-moz-range-thumb]:h-3 
+	[&::-moz-range-thumb]:bg-white 
+	[&::-moz-range-thumb]:rounded-full 
+	[&::-moz-range-thumb]:border 
+	[&::-moz-range-thumb]:border-none
+	[&::-moz-range-track]:bg-gray-200 
+	[&::-moz-range-track]:h-[0.2rem] 
+	[&::-moz-range-progress]:bg-red-500 
+	[&::-moz-range-progress]:h-[0.2rem]
+	[&::-ms-fill-lower]:bg-red-500 
+	[&::-ms-fill-upper]:bg-gray-200;
+	background: none;
+}
 .video {
 	width: 100%;
 	height: 100%;
@@ -28,7 +55,7 @@
 	@apply aspect-video;
 }
 .videoProgressContainerWrapper {
-	@apply flex mx-2;
+	@apply flex mx-1;
 }
 .videoProgressContainer {
 	box-sizing: border-box;
