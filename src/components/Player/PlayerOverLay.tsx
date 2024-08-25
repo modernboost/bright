@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { PlayerContext } from "./Player";
-import { IconPlayerPlay } from "@tabler/icons-react";
+import { IconPlayerPlay, IconPlayerPlayFilled } from "@tabler/icons-react";
 import styles from "./Player.module.css";
 
 export default function PlayerOverLay() {
@@ -22,7 +22,7 @@ export default function PlayerOverLay() {
 			playerCtx.state == "ENDED" ||
 			playerCtx.state == "LOADED"
 		) {
-			setIcon(<IconPlayerPlay size={40} className={styles.overlayIcon} />);
+			setIcon(<IconPlayerPlayFilled size={30} className={styles.overlayIcon} />);
 		} else if (playerCtx.state == "PLAYING") {
 			setIcon(null);
 		} else if (

@@ -6,8 +6,8 @@ import Popup from "../Popup/Popup";
 import styles from "./Player.module.css";
 import {
 	IconMaximize,
-	IconPlayerPause,
-	IconPlayerPlay,
+	IconPlayerPauseFilled,
+	IconPlayerPlayFilled,
 	IconRewindBackward10,
 	IconRewindForward10,
 	IconVolume,
@@ -57,9 +57,9 @@ export default function PlayerControls() {
 				{/* playe and pause btn */}
 				<div className={styles.btn} type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
-						<IconPlayerPause />
+						<IconPlayerPauseFilled />
 					) : (
-						<IconPlayerPlay />
+						<IconPlayerPlayFilled />
 					)}
 				</div>
 				<div className={styles.progressDisplayText}>
@@ -106,7 +106,7 @@ export default function PlayerControls() {
 								? "Auto"
 								: playerCtx?.currentBitRate?.quality + "p"}
 						</div>
-						<Popup trigger='hover' placement="top">
+						<Popup trigger='hover' placement='top'>
 							<div
 								style={{
 									padding: "0px",
@@ -158,7 +158,7 @@ export default function PlayerControls() {
 					{" "}
 					{playerCtx?.playBackRate ?? "1"}X{" "}
 				</div>
-				<Popup trigger='hover' placement="top">
+				<Popup trigger='hover' placement='top'>
 					<div
 						style={{
 							padding: "0px",

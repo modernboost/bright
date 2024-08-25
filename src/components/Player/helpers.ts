@@ -44,3 +44,39 @@ export function exitFullScreen(el) {
 		document.webkitExitFullScreen();
 	}
 }
+export function registerClickEvents({ player, event, dispatch, setPlayer }) {
+	console.log(event);
+	switch (event.code) {
+		case "Space":
+			dispatch({ type: "toggle_playing" });
+			break;
+		case "ArrowRight":
+			dispatch({ type: "forward", value: 5 });
+			break;
+		case "ArrowLeft":
+			dispatch({ type: "backward", value: 5 });
+			break;
+		case "ArrowUp":
+			console.log(player)
+			dispatch({ type: "volumn_set", value: player.volume + 0.1 });
+			break;
+		case "ArrowDown":
+			dispatch({ type: "volumn_set", value: player.volume - 0.1 });
+			break;
+		case "KeyF":
+			dispatch({ type: "toggle_fullscreen" });
+			break;
+		case "Enter":
+			dispatch({ type: "toggle_fullscreen" });
+			break;
+		case "KeyM":
+			dispatch({ type: "toggle_muted" });
+			break;
+		default:
+			if (event.code.startsWith("Digit")) {
+				const digit = event.code.charAt(5);
+				dispatch({ type: "forward", value: (digit / 10) * player.duration });
+			}
+			break;
+	}
+}

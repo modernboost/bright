@@ -3,7 +3,12 @@ import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import PlayerControls from "./PlayerControls";
 import RxPlayer from "rx-player";
 import { ILoadVideoOptions } from "rx-player/types";
-import { exitFullScreen, isFullScreen, requestFullScreen } from "./helpers";
+import {
+	exitFullScreen,
+	isFullScreen,
+	registerClickEvents,
+	requestFullScreen,
+} from "./helpers";
 import PlayerOverLay from "./PlayerOverLay";
 import styles from "./Player.module.css";
 RxPlayer.LogLevel = "NONE";
@@ -215,6 +220,12 @@ export default function Player({
 			}
 		});
 
+		document.addEventListener("keydown", clickEvents);
+
+		function clickEvents(event) {
+			registerClickEvents({ event, dispatch, player, setPlayer });
+		}
+
 		dispatch({
 			type: "set_player",
 			player,
@@ -225,6 +236,7 @@ export default function Player({
 			onPause,
 		});
 		return () => {
+			document.removeEventListener("keydown", clickEvents);
 			_player.removeEventListener("videoRepresentationChange");
 			_player.removeEventListener("videoTrackChange");
 			_player.removeEventListener("volumeChange");
@@ -244,13 +256,6 @@ export default function Player({
 	);
 }
 function reducer(state, action) {
-	//not initialized yet
-	console.log("Player reducer start -----");
-	console.log({ state });
-	console.log({ "state._player": state?._player });
-	console.log("is content loaded", state?._player?.isContentLoaded());
-	console.log("Player reducer end --------");
-
 	if (!state?._player && action.type !== "set_player") return;
 	if (!state?._player?.isContentLoaded() && action.type !== "set_player")
 		return;
