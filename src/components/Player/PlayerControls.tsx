@@ -106,7 +106,7 @@ export default function PlayerControls() {
 								? "Auto"
 								: playerCtx?.currentBitRate?.quality + "p"}
 						</div>
-						<Popup trigger='hover'>
+						<Popup trigger='hover' placement="top">
 							<div
 								style={{
 									padding: "0px",
@@ -158,7 +158,7 @@ export default function PlayerControls() {
 					{" "}
 					{playerCtx?.playBackRate ?? "1"}X{" "}
 				</div>
-				<Popup trigger='hover'>
+				<Popup trigger='hover' placement="top">
 					<div
 						style={{
 							padding: "0px",

@@ -20,9 +20,8 @@ export default function PlayerProgress() {
 		const y = event.clientY - rect.top;
 
 		const percentage = (100 * x1) / (x1 - x2);
-		const duration = playerCtx.duration ?? 0;
-		const p = (duration* percentage) / 100;
-
+		const duration = Boolean(playerCtx.duration) ? playerCtx.duration : 0;
+		const p = (duration * percentage) / 100;
 		setLeft(x1);
 		setTime(secondsToTimeString(p));
 	}

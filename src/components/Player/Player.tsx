@@ -6,6 +6,7 @@ import { ILoadVideoOptions } from "rx-player/types";
 import { exitFullScreen, isFullScreen, requestFullScreen } from "./helpers";
 import PlayerOverLay from "./PlayerOverLay";
 import styles from "./Player.module.css";
+RxPlayer.LogLevel = "NONE";
 
 export enum PlayerState {
 	PLAYING,
@@ -160,8 +161,8 @@ export default function Player({
 		_player.addEventListener("positionUpdate", (state) => {
 			setPlayer((prev) => ({
 				...prev,
-				position: state.position,
-				duration: state.duration,
+				position: Boolean(state.position) ? state.position : 0,
+				duration: Boolean(state.duration) ? state.duration : 0,
 				playBackRate: state.playbackRate,
 				loadedPosition: state.position + state.bufferGap,
 			}));
@@ -244,7 +245,15 @@ export default function Player({
 }
 function reducer(state, action) {
 	//not initialized yet
-	if (!state._player && action.type !== "set_player") return;
+	console.log("Player reducer start -----");
+	console.log({ state });
+	console.log({ "state._player": state?._player });
+	console.log("is content loaded", state?._player?.isContentLoaded());
+	console.log("Player reducer end --------");
+
+	if (!state?._player && action.type !== "set_player") return;
+	if (!state?._player?.isContentLoaded() && action.type !== "set_player")
+		return;
 
 	switch (action.type) {
 		case "set_player":
@@ -277,7 +286,6 @@ function reducer(state, action) {
 			break;
 		case "forward":
 			state._player.seekTo({ relative: action.value });
-			console.log("Next video");
 			return state;
 
 			break;
