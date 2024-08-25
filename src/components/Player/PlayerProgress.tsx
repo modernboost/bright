@@ -20,10 +20,10 @@ export default function PlayerProgress() {
 		const y = event.clientY - rect.top;
 
 		const percentage = (100 * x1) / (x1 - x2);
-		const p = (playerCtx.duration * percentage) / 100;
+		const duration = playerCtx.duration ?? 0;
+		const p = (duration* percentage) / 100;
 
 		setLeft(x1);
-
 		setTime(secondsToTimeString(p));
 	}
 	function handleMouseEnter(event) {
@@ -34,50 +34,48 @@ export default function PlayerProgress() {
 	}
 	return (
 		<div className={styles.videoProgressContainerWrapper}>
-
-		<div className={styles.videoProgressContainer}>
-			<div
-				className={styles.videoLoadedProgress}
-				style={{
-					width: `${playerCtx.loadedPosition / (playerCtx.duration / 100)}%`,
-				}}
-			></div>
-			<div className={styles.videoProgressBackground}></div>
-			<input
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				onMouseMove={handleMouseOver}
-				onChange={(event) => setPosition(event.target.value)}
-				value={playerCtx.position ?? 0}
-				min={0}
-				style={{
-					backgroundSize: `${
-						(playerCtx.position * 100) / playerCtx.duration
-					}% 0.2rem`,
-				}}
-				max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
-				type='range'
-				className={
-					styles.wFull + " " + styles.videoProgress + " " + styles.rangeInput
-				}
-			/>
-			<div
-				className={`${styles.rangeOutput}  `}
-				style={{
-					left: left,
-					display: over ? "block" : "none",
-				}}
-				aria-hidden='true'
-				data-tip
-			>
-				<div className={styles.rageOutputValueTrack}>
-					<div className={styles.rageOutputValues} data-values>
-						{time}
+			<div className={styles.videoProgressContainer}>
+				<div className={styles.videoProgressBackground} />
+				<div
+					className={styles.videoLoadedProgress}
+					style={{
+						width: `${playerCtx.loadedPosition / (playerCtx.duration / 100)}%`,
+					}}
+				/>
+				<input
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+					onMouseMove={handleMouseOver}
+					onChange={(event) => setPosition(event.target.value)}
+					value={playerCtx.position ?? 0}
+					min={0}
+					style={{
+						backgroundSize: `${
+							(playerCtx.position * 100) / playerCtx.duration
+						}% 0.3rem`,
+					}}
+					max={Number.isNaN(playerCtx.duration) ? 0 : playerCtx.duration}
+					type='range'
+					className={
+						styles.wFull + " " + styles.videoProgress + " " + styles.rangeInput
+					}
+				/>
+				<div
+					className={`${styles.rangeOutput}  `}
+					style={{
+						left: left,
+						display: over ? "block" : "none",
+					}}
+					aria-hidden='true'
+					data-tip
+				>
+					<div className={styles.rageOutputValueTrack}>
+						<div className={styles.rageOutputValues} data-values>
+							{time}
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		</div>
-
 	);
 }
