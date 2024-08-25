@@ -55,36 +55,32 @@ export default function PlayerControls() {
 			<PlayerProgress />
 			<div className={styles.videoOptionsWrapper}>
 				{/* playe and pause btn */}
-				<Button className={styles.btn} type='button' onClick={togglePlaying}>
+				<div className={styles.btn} type='button' onClick={togglePlaying}>
 					{playerCtx.state == "PLAYING" ? (
 						<IconPlayerPause />
 					) : (
 						<IconPlayerPlay />
 					)}
-				</Button>
+				</div>
 				<div className={styles.progressDisplayText}>
 					{secondsToTimeString(playerCtx.position ?? 0)} / {""}
 					{secondsToTimeString(playerCtx.duration ?? 0)}
 				</div>
 
 				{/* Go to Previous Video */}
-				<Button onClick={backward} className={styles.btn} type='button'>
+				<div onClick={backward} className={styles.btn} type='button'>
 					<IconRewindBackward10 />
-				</Button>
+				</div>
 
 				{/* Go to Next video  */}
-				<Button onClick={forward} type='button' className={styles.btn}>
+				<div onClick={forward} type='button' className={styles.btn}>
 					<IconRewindForward10 />
-				</Button>
+				</div>
 
 				{/* Mute and Unmute */}
-				<Button
-					onClick={() => toggleMuted()}
-					type='button'
-					className={styles.btn}
-				>
+				<div onClick={() => toggleMuted()} type='button' className={styles.btn}>
 					{playerCtx.muted ? <IconVolumeOff /> : <IconVolume />}{" "}
-				</Button>
+				</div>
 
 				{/* <Popup placement='top'> */}
 				<div className={styles.mxW16}>
@@ -105,11 +101,11 @@ export default function PlayerControls() {
 				{/* Quality */}
 				{(playerCtx?.autoBitRate || playerCtx?.bitRates) && (
 					<>
-						<Button className={styles.mlAuto + " " + styles.btn} type='button'>
+						<div className={styles.mlAuto + " " + styles.btn} type='button'>
 							{playerCtx?.autoBitRate
 								? "Auto"
 								: playerCtx?.currentBitRate?.quality + "p"}
-						</Button>
+						</div>
 						<Popup trigger='hover'>
 							<div
 								style={{
@@ -121,6 +117,7 @@ export default function PlayerControls() {
 								className={styles.slate600}
 							>
 								<div
+									role='button'
 									style={{
 										padding: "0.4rem",
 										borderRadius: "0.4rem",
@@ -157,10 +154,10 @@ export default function PlayerControls() {
 				)}
 
 				{/* Playback Speed */}
-				<Button type='button' className={styles.btn}>
+				<div type='button' className={styles.btn}>
 					{" "}
 					{playerCtx?.playBackRate ?? "1"}X{" "}
-				</Button>
+				</div>
 				<Popup trigger='hover'>
 					<div
 						style={{
@@ -196,9 +193,9 @@ export default function PlayerControls() {
 				</Button> */}
 
 				{/* Full screen */}
-				<Button type='button' className={styles.btn} onClick={setFullScreen}>
+				<div type='button' className={styles.btn} onClick={setFullScreen}>
 					<IconMaximize />
-				</Button>
+				</div>
 			</div>
 		</div>
 	);

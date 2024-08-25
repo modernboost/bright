@@ -22,7 +22,7 @@ export default function PlayerOverLay() {
 			playerCtx.state == "ENDED" ||
 			playerCtx.state == "LOADED"
 		) {
-			setIcon(<IconPlayerPlay size={45} className={styles.overlayIcon} />);
+			setIcon(<IconPlayerPlay size={40} className={styles.overlayIcon} />);
 		} else if (playerCtx.state == "PLAYING") {
 			setIcon(null);
 		} else if (
@@ -57,7 +57,7 @@ export default function PlayerOverLay() {
 
 function LoadingIcon() {
 	return (
-		<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
+		<svg xmlns='http://www.w3.org/2000/svg' style={{width: "3rem"}} viewBox='0 0 200 200'>
 			<radialGradient
 				id='a11'
 				cx='.66'
