@@ -72,12 +72,12 @@ export default function PlayerControls() {
 				</div>
 
 				{/* Go to Previous Video */}
-				<div onClick={backward} className={styles.btn} type='button'>
+				<div onClick={backward} className={styles.btn +" "+ styles.smHidden} type='button'>
 					<IconRewindBackward10 />
 				</div>
 
 				{/* Go to Next video  */}
-				<div onClick={forward} type='button' className={styles.btn}>
+				<div onClick={forward} type='button' className={styles.btn +" "+ styles.smHidden}>
 					<IconRewindForward10 />
 				</div>
 
@@ -96,7 +96,8 @@ export default function PlayerControls() {
 						min={0}
 						max={1}
 						onChange={(event) => setVolumn(event.target.value)}
-						defaultValue={playerCtx.volume}
+						// defaultValue={playerCtx.volume?? 0}
+						value={playerCtx.volume?? 0}
 					/>
 				</div>
 				{/* </Popup> */}

@@ -127,6 +127,9 @@
 .msAuto {
 	@apply ml-auto;
 }
+.smHidden {
+	@apply hidden sm:block;
+}
 .mxW16 {
 	/* /* @apply max-w-10; */
 }

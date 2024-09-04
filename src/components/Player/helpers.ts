@@ -1,5 +1,8 @@
 export function secondsToTimeString(seconds: number) {
-	const weeks = Math.floor(seconds / (7 * 24 * 3600));
+	const weekSeconds = 7 * 24 * 60* 60;
+	const daySeconds = 24 * 60* 60;
+
+	const weeks = Math.floor(seconds / weekSeconds);
 	const days = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
 	const hours = Math.floor((seconds % (24 * 3600)) / 3600);
 	const minutes = Math.floor((seconds % 3600) / 60);
@@ -44,8 +47,14 @@ export function exitFullScreen(el) {
 		document.webkitExitFullScreen();
 	}
 }
-export function registerClickEvents({ player, event, dispatch, setPlayer }) {
-	console.log(event);
+export function registerClickEvents({
+	playerRef,
+	getPlayer,
+	event,
+	dispatch,
+	setPlayer,
+}) {
+	const player = playerRef.current;
 	switch (event.code) {
 		case "Space":
 			dispatch({ type: "toggle_playing" });
@@ -57,11 +66,10 @@ export function registerClickEvents({ player, event, dispatch, setPlayer }) {
 			dispatch({ type: "backward", value: 5 });
 			break;
 		case "ArrowUp":
-			console.log(player);
-			dispatch({ type: "volumn_set", value: player.volume + 0.1 });
+			dispatch({ type: "volumn_set", value: Number(player.volume) + 0.1 });
 			break;
 		case "ArrowDown":
-			dispatch({ type: "volumn_set", value: player.volume - 0.1 });
+			dispatch({ type: "volumn_set", value: Number(player.volume) - 0.1 });
 			break;
 		case "KeyF":
 			dispatch({ type: "toggle_fullscreen" });
@@ -83,9 +91,8 @@ export function registerClickEvents({ player, event, dispatch, setPlayer }) {
 
 export function getLocaleState() {
 	const res = JSON.parse(localStorage.getItem("player_local_stae") ?? "{}");
-	console.log({res})
-	return  res 	
-
+	console.log({ res });
+	return res;
 }
 export function setLocaleState(state: {
 	volumn: string;

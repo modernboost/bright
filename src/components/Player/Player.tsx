@@ -132,11 +132,16 @@ export default function Player({
 	const videoRef = useRef(null);
 	const wrapperRef = useRef(null);
 	const [player, setPlayer] = useState<Player | null>({});
+	const playerRef = useRef();
 	const [state, dispatch] = useReducer(reducer, {}, (state) => state);
 	const [transport, setTransport] = useState({
 		type: srcType == "auto" ? "dash" : srcType,
 		changed: false,
 	});
+
+	useEffect(() => {
+		playerRef.current = player;
+	}, [player]);
 
 	useEffect(() => {
 		if (!videoRef.current || !wrapperRef.current) return;
@@ -230,7 +235,12 @@ export default function Player({
 		document.addEventListener("keydown", clickEvents);
 
 		function clickEvents(event) {
-			registerClickEvents({ event, dispatch, player, setPlayer });
+			registerClickEvents({
+				playerRef,
+				event,
+				dispatch,
+				setPlayer,
+			});
 		}
 
 		dispatch({
@@ -324,13 +334,14 @@ function reducer(state, action) {
 			return state;
 			break;
 		case "volumn_set":
-			if (!(action.value >= 0) && !(action.value <= 1)) return;
-			setLocaleState({ ...getLocaleState(), volume: action.value });
-			console.log("action value");
-			console.log(action.value);
-			state._player.setVolume(action.value);
-			if (action.value != 0 && state._player.isMute()) {
-				state._player.unMute();
+			console.log("setting volumn", action.value);
+			if (action.value >= 0 && action.value <= 1) {
+				setLocaleState({ ...getLocaleState(), volume: action.value });
+				console.log("action value");
+				state._player.setVolume(action.value);
+				if (action.value != 0 && state._player.isMute()) {
+					state._player.unMute();
+				}
 			}
 
 			return state;
