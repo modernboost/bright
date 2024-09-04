@@ -57,7 +57,7 @@ export function registerClickEvents({ player, event, dispatch, setPlayer }) {
 			dispatch({ type: "backward", value: 5 });
 			break;
 		case "ArrowUp":
-			console.log(player)
+			console.log(player);
 			dispatch({ type: "volumn_set", value: player.volume + 0.1 });
 			break;
 		case "ArrowDown":
@@ -79,4 +79,18 @@ export function registerClickEvents({ player, event, dispatch, setPlayer }) {
 			}
 			break;
 	}
+}
+
+export function getLocaleState() {
+	const res = JSON.parse(localStorage.getItem("player_local_stae") ?? "{}");
+	console.log({res})
+	return  res 	
+
+}
+export function setLocaleState(state: {
+	volumn: string;
+	playback: number;
+	quality: [];
+}) {
+	localStorage.setItem("player_local_stae", JSON.stringify(state));
 }

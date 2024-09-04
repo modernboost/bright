@@ -9,7 +9,8 @@ export async function GET(req: NextRequest, { params }) {
 	// response.headers.set("content-type", "image/png");
 
 	const responseStream = await axios.get(
-		"https://static.mbt.af/api/Assets/stream/" + params.id,
+		// "https://static.mbt.af/api/Assets/stream/" + params.id,
+		"http://localhost:10000/api/Assets/stream/" + params.id,
 		{
 			responseType: "stream",
 		}

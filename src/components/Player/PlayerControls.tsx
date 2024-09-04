@@ -18,6 +18,10 @@ import { secondsToTimeString } from "./helpers";
 export default function PlayerControls() {
 	const { dispatch, player: playerCtx } = useContext(PlayerContext);
 
+	useEffect(() => {
+		console.log({ playerCtx });
+		console.log(playerCtx.volume);
+	}, [playerCtx]);
 	function forward() {
 		dispatch({ type: "forward", value: 10 });
 	}
@@ -88,7 +92,6 @@ export default function PlayerControls() {
 						className={styles.volumeInput}
 						type='range'
 						name=''
-						id=''
 						step={0.1}
 						min={0}
 						max={1}

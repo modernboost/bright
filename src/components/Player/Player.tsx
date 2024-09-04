@@ -5,9 +5,11 @@ import RxPlayer from "rx-player";
 import { ILoadVideoOptions } from "rx-player/types";
 import {
 	exitFullScreen,
+	getLocaleState,
 	isFullScreen,
 	registerClickEvents,
 	requestFullScreen,
+	setLocaleState,
 } from "./helpers";
 import PlayerOverLay from "./PlayerOverLay";
 import styles from "./Player.module.css";
@@ -160,7 +162,12 @@ export default function Player({
 		});
 
 		_player.addEventListener("playerStateChange", (state) => {
-			setPlayer((prev) => ({ ...prev, state }));
+			console.log("palyer state chagnge", state);
+			setPlayer((prev) => ({
+				...prev,
+				state,
+				volume: getLocaleState()?.volume ?? "",
+			}));
 		});
 
 		_player.addEventListener("positionUpdate", (state) => {
@@ -174,6 +181,7 @@ export default function Player({
 		});
 
 		_player.addEventListener("volumeChange", (state) => {
+			console.log("volumn change", state);
 			setPlayer((prev) => ({
 				...prev,
 				volume: state.volume,
@@ -182,7 +190,6 @@ export default function Player({
 		});
 		_player.addEventListener("videoTrackChange", (state) => {
 			console.log("track chage: ", state);
-
 			setPlayer((prev) => ({
 				...prev,
 				bitRates: state?.representations.map((r) => ({
@@ -317,6 +324,10 @@ function reducer(state, action) {
 			return state;
 			break;
 		case "volumn_set":
+			if (!(action.value >= 0) && !(action.value <= 1)) return;
+			setLocaleState({ ...getLocaleState(), volume: action.value });
+			console.log("action value");
+			console.log(action.value);
 			state._player.setVolume(action.value);
 			if (action.value != 0 && state._player.isMute()) {
 				state._player.unMute();
