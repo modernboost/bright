@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useState } from "react";
 import styles from "./FileUpload.module.css";
-import {Button} from "../index.ts";
+import { Button } from "../index.ts";
 
 export default function FileUpload({
 	onFileSelect,
@@ -12,6 +12,7 @@ export default function FileUpload({
 	defaultFile,
 	onDelete,
 	PreviewComponenet,
+	access = "public",
 }: {
 	defaultFile?: string;
 	multiple?: boolean;
@@ -21,6 +22,7 @@ export default function FileUpload({
 	onCancel: () => {};
 	onDelete: () => {};
 	name: string;
+	access?: "public" | "private";
 }) {
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [uploadedUrl, setUploadedUrl] = useState<string | undefined>(
@@ -63,6 +65,7 @@ export default function FileUpload({
 
 	return (
 		<div className={styles.fileUpload}>
+			<input type='text' hidden readOnly value={access} name={"access"} />
 			<input
 				type='text'
 				hidden
@@ -111,18 +114,12 @@ export default function FileUpload({
 					</Button>
 				)}
 				{uploadedUrl && (
-					<Button
-						type='button'
-						onClick={deleteFile}
-					>
+					<Button type='button' onClick={deleteFile}>
 						Delete
 					</Button>
 				)}
 				{uploading && (
-					<Button
-						type='button'
-						onClick={cancelUpload}
-					>
+					<Button type='button' onClick={cancelUpload}>
 						Cancel
 					</Button>
 				)}
