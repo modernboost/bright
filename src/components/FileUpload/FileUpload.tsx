@@ -13,6 +13,7 @@ export default function FileUpload({
 	onDelete,
 	PreviewComponenet,
 	access = "public",
+	accessName = "access",
 }: {
 	defaultFile?: string;
 	multiple?: boolean;
@@ -23,6 +24,7 @@ export default function FileUpload({
 	onDelete: () => {};
 	name: string;
 	access?: "public" | "private";
+	accessName?: string;
 }) {
 	const [uploading, setUploading] = useState<boolean>(false);
 	const [uploadedUrl, setUploadedUrl] = useState<string | undefined>(
@@ -65,7 +67,7 @@ export default function FileUpload({
 
 	return (
 		<div className={styles.fileUpload}>
-			<input type='text' hidden readOnly value={access} name={"access"} />
+			<input type='text' hidden readOnly value={access} name={accessName} />
 			<input
 				type='text'
 				hidden
