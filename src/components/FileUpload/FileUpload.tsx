@@ -12,8 +12,8 @@ export default function FileUpload({
 	defaultFile,
 	onDelete,
 	PreviewComponenet,
-	access = "public",
-	accessName = "access",
+	accessType = "public",
+	accessName = "contentType",
 }: {
 	defaultFile?: string;
 	multiple?: boolean;
@@ -23,7 +23,7 @@ export default function FileUpload({
 	onCancel: () => {};
 	onDelete: () => {};
 	name: string;
-	access?: "public" | "private";
+	accessType?: "public" | "private";
 	accessName?: string;
 }) {
 	const [uploading, setUploading] = useState<boolean>(false);
@@ -40,6 +40,8 @@ export default function FileUpload({
 			try {
 				const temp = await onFileSelect({
 					files: event.target.files,
+					accessType,
+					accessName,
 					setUploadProgress,
 				});
 				setUploadedUrl(temp);
@@ -67,7 +69,7 @@ export default function FileUpload({
 
 	return (
 		<div className={styles.fileUpload}>
-			<input type='text' hidden readOnly value={access} name={accessName} />
+			{/* <input type='text' hidden readOnly value={access} name={accessName} /> */}
 			<input
 				type='text'
 				hidden

@@ -1,6 +1,6 @@
 export function secondsToTimeString(seconds: number) {
-	const weekSeconds = 7 * 24 * 60* 60;
-	const daySeconds = 24 * 60* 60;
+	const weekSeconds = 7 * 24 * 60 * 60;
+	const daySeconds = 24 * 60 * 60;
 
 	const weeks = Math.floor(seconds / weekSeconds);
 	const days = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
@@ -55,6 +55,13 @@ export function registerClickEvents({
 	setPlayer,
 }) {
 	const player = playerRef.current;
+	console.log(playerRef.current);
+	console.log(event);
+	
+	if (document.activeElement !== player) {
+		return; // Exit if video is not focused
+	}
+	console.log(event);
 	switch (event.code) {
 		case "Space":
 			dispatch({ type: "toggle_playing" });

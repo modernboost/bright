@@ -167,7 +167,6 @@ export default function Player({
 		});
 
 		_player.addEventListener("playerStateChange", (state) => {
-			console.log("palyer state chagnge", state);
 			setPlayer((prev) => ({
 				...prev,
 				state,
@@ -186,7 +185,6 @@ export default function Player({
 		});
 
 		_player.addEventListener("volumeChange", (state) => {
-			console.log("volumn change", state);
 			setPlayer((prev) => ({
 				...prev,
 				volume: state.volume,
@@ -194,7 +192,6 @@ export default function Player({
 			}));
 		});
 		_player.addEventListener("videoTrackChange", (state) => {
-			console.log("track chage: ", state);
 			setPlayer((prev) => ({
 				...prev,
 				bitRates: state?.representations.map((r) => ({
@@ -206,7 +203,6 @@ export default function Player({
 			}));
 		});
 		_player.addEventListener("videoRepresentationChange", (state) => {
-			console.log("representation chage: ", state);
 			setPlayer((prev) => ({
 				...prev,
 				autoBitRate: _player.getLockedVideoRepresentations() === null,
@@ -232,7 +228,7 @@ export default function Player({
 			}
 		});
 
-		document.addEventListener("keydown", clickEvents);
+		videoRef.current.addEventListener("keydown", clickEvents);
 
 		function clickEvents(event) {
 			registerClickEvents({
@@ -261,7 +257,7 @@ export default function Player({
 			_player.removeEventListener("playerStateChange");
 			_player.dispose();
 		};
-	}, [videoRef, wrapperRef, transport]);
+	}, [videoRef.current, wrapperRef, transport]);
 	return (
 		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper}>
 			<PlayerContext.Provider value={{ dispatch, player }}>
@@ -337,7 +333,6 @@ function reducer(state, action) {
 			console.log("setting volumn", action.value);
 			if (action.value >= 0 && action.value <= 1) {
 				setLocaleState({ ...getLocaleState(), volume: action.value });
-				console.log("action value");
 				state._player.setVolume(action.value);
 				if (action.value != 0 && state._player.isMute()) {
 					state._player.unMute();

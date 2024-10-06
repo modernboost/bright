@@ -18,10 +18,6 @@ import { secondsToTimeString } from "./helpers";
 export default function PlayerControls() {
 	const { dispatch, player: playerCtx } = useContext(PlayerContext);
 
-	useEffect(() => {
-		console.log({ playerCtx });
-		console.log(playerCtx.volume);
-	}, [playerCtx]);
 	function forward() {
 		dispatch({ type: "forward", value: 10 });
 	}
