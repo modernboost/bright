@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Progress.module.css";
 import { secondsToTimeString } from "../Player/helpers";
 
-export default function Progress({ value, max, preload, onChange }) {
+export default function Progress({
+	value = 0,
+	max,
+	preload = 0,
+	onChange,
+	...rest
+}) {
 	const [duration, setDuration] = useState(max);
 	const [currentTime, setCurrentTime] = useState(value);
 	const [bufferedTime, setBufferedTime] = useState(preload);
@@ -94,12 +100,12 @@ export default function Progress({ value, max, preload, onChange }) {
 			className={styles.progress}
 			type='range'
 			name=''
-			step={0.1}
 			min={0}
 			max={duration}
-			onChange={handleSeek}
+			onChange={onChange}
 			// defaultValue={playerCtx.volume?? 0}
 			value={currentTime}
+			{...rest}
 		/>
 	);
 

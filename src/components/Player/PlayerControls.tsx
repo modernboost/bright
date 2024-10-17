@@ -48,14 +48,19 @@ export default function PlayerControls() {
 	function setAutobitRate() {
 		dispatch({ type: "autobitrate_set" });
 	}
-	function setPosition(value) {
-		dispatch({ type: "position_set", value });
+	function setPosition(e) {
+		dispatch({ type: "position_set", value: e.target.value });
 	}
 	const speedList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 	return (
 		<div className={styles.videoControlsWrapper}>
-			<Progress onChange={setPosition} max={playerCtx.duration}  value={playerCtx.position} preload={playerCtx.loadedPosition} />
+			<Progress
+				onChange={setPosition}
+				max={playerCtx.duration}
+				value={playerCtx.position}
+				preload={playerCtx.loadedPosition}
+			/>
 			<div className={styles.videoOptionsWrapper}>
 				{/* playe and pause btn */}
 				<div className={styles.btn} type='button' onClick={togglePlaying}>
@@ -71,14 +76,22 @@ export default function PlayerControls() {
 				</div>
 
 				{/* Go to Previous Video */}
-				<div onClick={backward} className={styles.btn +" "+ styles.smHidden} type='button'>
+				{/* <div
+					onClick={backward}
+					className={styles.btn + " " + styles.smHidden}
+					type='button'
+				>
 					<IconRewindBackward10 />
-				</div>
+				</div> */}
 
 				{/* Go to Next video  */}
-				<div onClick={forward} type='button' className={styles.btn +" "+ styles.smHidden}>
+				{/* <div
+					onClick={forward}
+					type='button'
+					className={styles.btn + " " + styles.smHidden}
+				>
 					<IconRewindForward10 />
-				</div>
+				</div> */}
 
 				{/* Mute and Unmute */}
 				<div onClick={() => toggleMuted()} type='button' className={styles.btn}>
@@ -87,16 +100,13 @@ export default function PlayerControls() {
 
 				{/* <Popup placement='top'> */}
 				<div className={styles.mxW16}>
-					<input
-						className={styles.volumeInput}
-						type='range'
-						name=''
+					<Progress
 						step={0.1}
 						min={0}
 						max={1}
 						onChange={(event) => setVolumn(event.target.value)}
 						// defaultValue={playerCtx.volume?? 0}
-						value={playerCtx.volume?? 0}
+						value={playerCtx.volume ?? 0}
 					/>
 				</div>
 				{/* </Popup> */}
