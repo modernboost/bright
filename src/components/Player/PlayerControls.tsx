@@ -14,6 +14,7 @@ import {
 	IconVolumeOff,
 } from "@tabler/icons-react";
 import { secondsToTimeString } from "./helpers";
+import Progress from "../Progress/Progress";
 
 export default function PlayerControls() {
 	const { dispatch, player: playerCtx } = useContext(PlayerContext);
@@ -47,12 +48,14 @@ export default function PlayerControls() {
 	function setAutobitRate() {
 		dispatch({ type: "autobitrate_set" });
 	}
-
+	function setPosition(value) {
+		dispatch({ type: "position_set", value });
+	}
 	const speedList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 	return (
 		<div className={styles.videoControlsWrapper}>
-			<PlayerProgress />
+			<Progress onChange={setPosition} max={playerCtx.duration}  value={playerCtx.position} preload={playerCtx.loadedPosition} />
 			<div className={styles.videoOptionsWrapper}>
 				{/* playe and pause btn */}
 				<div className={styles.btn} type='button' onClick={togglePlaying}>

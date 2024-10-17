@@ -1,0 +1,69 @@
+
+.player {
+	width: 100%;
+	max-width: 800px;
+	margin: auto;
+	background-color: #000;
+	position: relative;
+  }
+  
+  .video-player {
+	width: 100%;
+  }
+  
+  .controls {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	opacity: 1;
+  }
+  
+  .progress-bar-container {
+	width: 100%;
+	height: 8px;
+	background-color: #555;
+	position: relative;
+	cursor: pointer;
+	margin-bottom: 10px;
+  }
+  
+  .progress-bar-played {
+	height: 100%;
+	background-color: #ff0000;
+	position: absolute;
+	top: 0;
+	left: 0;
+  }
+  
+  .progress-bar-buffered {
+	height: 100%;
+	background-color: #999;
+	position: absolute;
+	top: 0;
+	left: 0;
+  }
+  
+  .progress-bullet {
+	width: 14px;
+	height: 14px;
+	background-color: #fff;
+	border-radius: 50%;
+	position: absolute;
+	top: -4px; /* Center the bullet in the bar */
+	transform: translateX(-50%); /* Move the bullet to center it horizontally */
+	cursor: pointer;
+	z-index: 10;
+  }
+  
+  .time-info {
+	display: flex;
+	justify-content: space-between;
+	color: #fff;
+	font-size: 14px;
+  }
+  

@@ -1,0 +1,84 @@
+/* .progress {
+	@apply w-full rounded-lg appearance-none cursor-pointer
+	[&::-webkit-slider-runnable-track]:rounded-full 
+	[&::-webkit-slider-runnable-track]:bg-gray-400 
+	[&::-webkit-slider-runnable-track]:h-[0.3rem] 
+	[&::-webkit-slider-thumb]:appearance-none 
+	[&::-webkit-slider-thumb]:w-3 
+	[&::-webkit-slider-thumb]:h-3 
+	[&::-webkit-slider-thumb]:bg-white 
+	[&::-webkit-slider-thumb]:rounded-full 
+	[&::-webkit-slider-thumb]:border 
+	[&::-webkit-slider-thumb]:border-none 
+	[&::-webkit-slider-runnable-track]:bg-gradient-to-r from-red-500 to-gray-200
+	[&::-moz-range-thumb]:w-3 
+	[&::-moz-range-thumb]:h-3 
+	[&::-moz-range-thumb]:bg-white 
+	[&::-moz-range-thumb]:rounded-full 
+	[&::-moz-range-thumb]:border 
+	[&::-moz-range-thumb]:border-none
+	[&::-moz-range-track]:bg-gray-200 
+	[&::-moz-range-track]:h-[0.3rem] 
+	[&::-moz-range-progress]:bg-red-500 
+	[&::-moz-range-progress]:h-[0.3rem]
+	[&::-ms-fill-lower]:bg-red-500 
+	[&::-ms-fill-upper]:bg-gray-200;
+	background: none;
+} */
+
+.progress {
+	--preload: 0%;
+	--progress: 0%;
+	--preloadColor: #dddddd;
+	--generalColor: #a3a2a2;
+	--progressColor: #ff0404;
+	@apply w-full rounded-lg appearance-none cursor-pointer bg-none;
+	background: none;
+}
+
+.progress::-webkit-slider-runnable-track {
+	@apply rounded-full bg-gray-400 h-[0.3rem];
+	background: linear-gradient(
+		to right,
+		var(--progressColor) 0% var(--progress),
+		var(--preloadColor) var(--progress) var(--preload),
+		var(--generalColor) 0%
+	);
+}
+
+.progress::-moz-range-track {
+	@apply h-[0.3rem];
+	background: linear-gradient(
+		to right,
+		var(--progressColor) 0% var(--progress),
+		var(--preloadColor) var(--progress) var(--preload),
+		var(--generalColor) 0%
+	);
+}
+
+.progress::-webkit-slider-thumb {
+	@apply appearance-none w-3 h-3 bg-white rounded-full  border border-none -mt-1;
+}
+
+.progress::-moz-range-thumb {
+	@apply w-3 h-3 bg-white rounded-full border border-none;
+}
+
+.progress::-ms-fill-lower {
+	background: #f87171; /* Buffered portion color */
+}
+
+.progress::-ms-fill-upper {
+	background: #3473f2; /* Unbuffered portion color */
+}
+
+
+.progress::-ms-thumb {
+	@apply bg-white;
+}
+.progress::-moz-range-thumb {
+	@apply bg-white;
+}
+.progress::-webkit-slider-thumb {
+	@apply bg-white;
+}

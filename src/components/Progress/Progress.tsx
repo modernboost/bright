@@ -1,17 +1,31 @@
-import {  useEffect, useState } from "react";
-import { secondsToTimeString } from "./helpers";
-import styles from "./Player.module.css";
+import { useEffect, useRef, useState } from "react";
+import styles from "./Progress.module.css";
+import { secondsToTimeString } from "../Player/helpers";
 
-export default function PlayerProgress({ value, max, preload, onChange }) {
+export default function Progress({ value, max, preload, onChange }) {
 	const [duration, setDuration] = useState(max);
 	const [currentTime, setCurrentTime] = useState(value);
 	const [bufferedTime, setBufferedTime] = useState(preload);
-	useEffect(()=>{
-		setDuration(max)
-		setCurrentTime(value)
-		setBufferedTime(preload)
-	},  [value, max, preload])
+	const inputRef = useRef(null);
 
+	useEffect(() => {
+		setDuration(max);
+		setCurrentTime(value);
+		setBufferedTime(preload);
+	}, [value, max, preload]);
+	useEffect(() => {
+		inputRef?.current?.style.setProperty(
+			"--preload",
+			`${(bufferedTime * 100) / duration}%`
+		);
+	}, [bufferedTime]);
+	useEffect(() => {
+		console.log({ currentTime });
+		inputRef?.current?.style.setProperty(
+			"--progress",
+			`${(currentTime * 100) / duration}%`
+		);
+	}, [currentTime]);
 
 	useEffect(() => {
 		return;
@@ -43,23 +57,8 @@ export default function PlayerProgress({ value, max, preload, onChange }) {
 	};
 
 	const handleSeek = (e) => {
-		console.log({ currentTime });
-		console.log(e.nativeEvent);
-		const progressBar = e.currentTarget;
-		console.log(progressBar.offsetWidth);
-		const newTime =
-		(e.nativeEvent.offsetX / progressBar.offsetWidth) * duration;
-		console.log({ newTime });
-		onChange && onChange(newTime);
+		onChange && onChange(e.target.value);
 	};
-
-	const handleBulletDrag = (e) => {
-		const progressBar = document.querySelector(".progress-bar-container");
-		const newTime = (e.clientX / progressBar.offsetWidth) * duration;
-		videoRef.current.currentTime = newTime;
-	};
-
-	const showControls = () => setControlsVisible(true); // Show controls on hover
 
 	const [over, setOver] = useState(false);
 	const [left, setLeft] = useState(0);
@@ -88,6 +87,22 @@ export default function PlayerProgress({ value, max, preload, onChange }) {
 	function handleMouseLeave(event) {
 		setOver(false);
 	}
+
+	return (
+		<input
+			ref={inputRef}
+			className={styles.progress}
+			type='range'
+			name=''
+			step={0.1}
+			min={0}
+			max={duration}
+			onChange={handleSeek}
+			// defaultValue={playerCtx.volume?? 0}
+			value={currentTime}
+		/>
+	);
+
 	return (
 		<>
 			<div className='controls'>

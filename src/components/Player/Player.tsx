@@ -12,6 +12,7 @@ import {
 	setLocaleState,
 } from "./helpers";
 import PlayerOverLay from "./PlayerOverLay";
+import "./style.css"
 import styles from "./Player.module.css";
 RxPlayer.LogLevel = "NONE";
 
@@ -259,9 +260,9 @@ export default function Player({
 		};
 	}, [videoRef.current, wrapperRef, transport]);
 	return (
-		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper}>
+		<div dir='ltr' ref={wrapperRef} className={styles.playerWrapper  + "  player"}>
 			<PlayerContext.Provider value={{ dispatch, player }}>
-				<video ref={videoRef} className={styles.video} src={src} />
+				<video ref={videoRef} className={styles.video + "  video-player"} src={src} />
 				<PlayerOverLay />
 				<PlayerControls />
 			</PlayerContext.Provider>
