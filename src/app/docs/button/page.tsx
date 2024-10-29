@@ -25,6 +25,8 @@ export default function Page() {
 			<Button variant='gost'>gost</Button>
 			<Button variant='link'>Link</Button>
 			<Button variant='outline'>outline</Button>
+			<Button loading>loading</Button>
+			<Button loading></Button>
 			<br />
 			<h1>Sizes</h1>
 			<Button size='sm'>sm</Button>
