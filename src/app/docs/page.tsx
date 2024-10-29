@@ -9,7 +9,7 @@ export default function Page() {
 				{components.map((component, i) => (
 					<li key={i}>
 						<Link href={component.href}>{component.name}</Link>
-				</li>
+					</li>
 				))}
 			</ul>
 		</>
