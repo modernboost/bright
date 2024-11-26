@@ -30,7 +30,7 @@ export default function Sidebar({}) {
 				{items.map((item) => {
 					return (
 						<Link href={item.link}>
-							{item.label}
+							{item.label}{" "}
 							{item.icon}
 						</Link>
 					);

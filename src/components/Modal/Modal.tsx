@@ -6,44 +6,46 @@ import React, {
 	useEffect,
 	useState,
 } from "react";
-import styles from "./Modal.module.css";
-
+import clsx from "clsx";
+import "./Modal.css";
 const ModalContext = createContext(false);
 
 export default function Modal({
 	children,
 	open = false,
-	onChange = () => {},
+	onClose = () => {},
 	className,
 	...restProps
 }: {
 	restProps?: HTMLElement;
 	className?: string;
 	open?: boolean;
-	onChange: Function;
+	onClose: Function;
 	children: React.ReactNode;
 }) {
 	useEffect(() => {
 		setIsOpen(open);
 	}, [open]);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(open);
+
 	useEffect(() => {
-		onChange(isOpen);
+		!isOpen && onClose(isOpen);
 	}, [isOpen]);
+
+	const classNames = clsx("modall", className);
 	return (
 		<ModalContext.Provider value={{ isOpen, setIsOpen }}>
 			<div
 				onClick={() => {
-					console.log("second");
-					onChange();
+					onClose();
 				}}
-				className={`${styles.modalBackdrop} ${isOpen ? "" : "hidden"} `}
+				className={`modal-backdropp ${isOpen ? "" : "hidden"} `}
 			>
 				<div
 					onClick={(e) => {
 						e.stopPropagation();
 					}}
-					className={`${styles.modal} ${className}`}
+					className={classNames}
 					{...restProps}
 				>
 					{children}
@@ -58,16 +60,18 @@ export function ModalHeader({
 	className,
 	...restProps
 }: {
-	className: string;
-	restProps: HTMLDivElement;
-	children: ReactNode;
+	className?: string;
+	restProps?: HTMLDivElement;
+	children?: ReactNode;
 }) {
 	const { setIsOpen } = useContext(ModalContext);
+
+	const classNames = clsx("modall-header", className);
 	return (
-		<div className={` ${styles.ModalHeader} ${className}`} {...restProps}>
+		<div className={classNames} {...restProps}>
 			{children}
 			<IconX
-				onClick={() => setIsOpen()}
+				onClick={() => setIsOpen(false)}
 				className='hover:text-red-500 hover:cursor-pointer'
 			/>
 		</div>

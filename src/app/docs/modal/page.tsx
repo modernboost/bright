@@ -1,6 +1,6 @@
-'use client'
+"use client";
 import Button from "@/components/Button/Button";
-import Modal from "@/components/Modal/Modal";
+import Modal, { ModalHeader } from "@/components/Modal/Modal";
 import { useState } from "react";
 
 export default function Page() {
@@ -8,10 +8,16 @@ export default function Page() {
 	return (
 		<>
 			<div>
-				<Button>Open Modal</Button>
-				<Modal open={open} onChange={setOpen}>
+				<Button onClick={() => setOpen(true)}>Open Modal</Button>
+				<Modal open={open} onClose={setOpen}>
+					<ModalHeader>Hellow world</ModalHeader>
+					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
+					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
 					<div>this is the Modal content</div>
-				</Modal>paly
+					<div>this is the Modal content</div>
+					<div>this is the Modal content</div>
+					<div>this is the Modal content</div>
+				</Modal>
 			</div>
 		</>
 	);

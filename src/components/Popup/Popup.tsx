@@ -29,7 +29,7 @@ export default function Popup({
 	const [arrowElement, setArrowElement] = useState(null);
 	const popperInstance = useRef(null);
 
-	let timer: number | string | null = null;
+	let timer: number | null = null;
 
 	useEffect(() => {
 		setShow(open);
