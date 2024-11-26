@@ -7,7 +7,7 @@ import React, {
 	useState,
 } from "react";
 import clsx from "clsx";
-import "./Modal.css";
+import styles from "./Modal.module.css";
 const ModalContext = createContext(false);
 
 export default function Modal({
@@ -32,14 +32,14 @@ export default function Modal({
 		!isOpen && onClose(isOpen);
 	}, [isOpen]);
 
-	const classNames = clsx("modall", className);
+	const classNames = clsx(styles.modall, className);
 	return (
 		<ModalContext.Provider value={{ isOpen, setIsOpen }}>
 			<div
 				onClick={() => {
 					onClose();
 				}}
-				className={`modal-backdropp ${isOpen ? "" : "hidden"} `}
+				className={`${styles["modal-backdropp"]} ${isOpen ? "" : "hidden"} `}
 			>
 				<div
 					onClick={(e) => {
@@ -66,7 +66,7 @@ export function ModalHeader({
 }) {
 	const { setIsOpen } = useContext(ModalContext);
 
-	const classNames = clsx("modall-header", className);
+	const classNames = clsx(styles["modall-header"], className);
 	return (
 		<div className={classNames} {...restProps}>
 			{children}

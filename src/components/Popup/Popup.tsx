@@ -1,5 +1,5 @@
 "use client";
-import React, { Ref, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { PopperProps } from "react-popper";
 import styles from "./Popup.module.css";
@@ -50,7 +50,7 @@ export default function Popup({
 	}
 	function handleMouseEnter() {
 		clearTimeout(timer);
-		removeEventListener("mouseleave", handleMouseLeave, true);
+		reference.removeEventListener("mouseleave", handleMouseLeave, true);
 		setShow(true);
 	}
 	function handleMouseLeave() {
@@ -94,8 +94,9 @@ export default function Popup({
 							offset: [0, 8],
 						},
 					},
+
 					{
-						name: "preventOverflow",
+						// name: "preventOverflow",
 						options: {
 							boundary: "viewport",
 						},

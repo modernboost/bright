@@ -6,7 +6,25 @@ export default function Page() {
 		<>
 			<div>
 				<Button variant='outline'>popup</Button>
-				<Popup>
+				<Popup trigger="hover">
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
+					<div>this is the popup content</div>
 					<div>this is the popup content</div>
 				</Popup>
 			</div>

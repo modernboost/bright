@@ -5,6 +5,8 @@
 	padding: 10px;
 	z-index: 100000;
 	position: relative;
+	overflow: auto;
+	max-height: 95vh;
 }
 .popupOpen {
 	display: block;
