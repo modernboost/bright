@@ -18,9 +18,10 @@ export default defineConfig({
 	build: {
 		cssCodeSplit: true,
 		lib: {
-			entry: path.resolve(__dirname, "index.ts"),
-			name: "ViteButton",
-			fileName: (format) => `index.${format}.js`,
+			entry: "index.ts",
+			name: "brightjs",
+			fileName: "bright",
+			formats: ["es", "cjs", "umd"],
 		},
 		rollupOptions: {
 			external: ["react", "react-dom"],
@@ -45,6 +46,7 @@ export default defineConfig({
 		css(),
 		postcss({
 			plugins: [tailwindcss, autoprefixer],
+			modules: true, // Enable CSS Modules
 			inject: true, // Injects styles into the <head> of the document
 			minimize: true, // Optional: Minimize the CSS output
 		}),

@@ -114,12 +114,17 @@ export default function PlayerControls() {
 				{/* Quality */}
 				{(playerCtx?.autoBitRate || playerCtx?.bitRates) && (
 					<>
-						<div className={styles.mlAuto + " " + styles.btn} type='button'>
-							{playerCtx?.autoBitRate
-								? "Auto"
-								: playerCtx?.currentBitRate?.quality + "p"}
-						</div>
-						<Popup trigger='hover' placement='top'>
+						<Popup
+							refEl={
+								<div className={styles.mlAuto + " " + styles.btn} type='button'>
+									{playerCtx?.autoBitRate
+										? "Auto"
+										: playerCtx?.currentBitRate?.quality + "p"}
+								</div>
+							}
+							trigger='hover'
+							placement='top'
+						>
 							<div
 								style={{
 									padding: "0px",
@@ -167,11 +172,17 @@ export default function PlayerControls() {
 				)}
 
 				{/* Playback Speed */}
-				<div type='button' className={styles.btn}>
-					{" "}
-					{playerCtx?.playBackRate ?? "1"}X{" "}
-				</div>
-				<Popup trigger='hover' placement='top'>
+
+				<Popup
+					refEl={
+						<div type='button' className={styles.btn}>
+							{" "}
+							{playerCtx?.playBackRate ?? "1"}X{" "}
+						</div>
+					}
+					trigger='hover'
+					placement='top'
+				>
 					<div
 						style={{
 							padding: "0px",

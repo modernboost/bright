@@ -1,23 +1,22 @@
 {
   "name": "@mbtjs/bright",
   "private": false,
-  "version": "0.0.57",
+  "version": "0.0.72",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
+      "import": "./dist/bright.js",
+      "require": "./dist/bright.cjs",
       "types": "./dist/index.d.ts",
       "styles": "./dist/components.css"
     },
     "./components.css": "./dist/components.css"
   },
   "files": [
-    "/dist",
-    "components.css"
+    "./dist"
   ],
   "publishConfig": {
     "access": "public"

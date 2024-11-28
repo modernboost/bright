@@ -4,10 +4,12 @@ import React, {
 	createContext,
 	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from "react";
 import clsx from "clsx";
-import styles from "./Modal.module.css";
+import { modalStyles } from "./Modal.style";
+import { BaseSize } from "../BaseTypes";
 const ModalContext = createContext(false);
 
 export default function Modal({
@@ -15,12 +17,14 @@ export default function Modal({
 	open = false,
 	onClose = () => {},
 	className,
+	size = "md",
 	...restProps
 }: {
 	restProps?: HTMLElement;
 	className?: string;
 	open?: boolean;
 	onClose: Function;
+	size?: BaseSize;
 	children: React.ReactNode;
 }) {
 	useEffect(() => {
@@ -32,20 +36,28 @@ export default function Modal({
 		!isOpen && onClose(isOpen);
 	}, [isOpen]);
 
-	const classNames = clsx(styles.modall, className);
+	const modalClasses = useMemo(
+		() => clsx(modalStyles.modal, modalStyles.size[size], className),
+		[className]
+	);
+	const backdropClasses = useMemo(
+		() => clsx(modalStyles.backdrop, !isOpen && "hidden"),
+		[isOpen]
+	);
+
 	return (
 		<ModalContext.Provider value={{ isOpen, setIsOpen }}>
 			<div
 				onClick={() => {
 					onClose();
 				}}
-				className={`${styles["modal-backdropp"]} ${isOpen ? "" : "hidden"} `}
+				className={backdropClasses}
 			>
 				<div
 					onClick={(e) => {
 						e.stopPropagation();
 					}}
-					className={classNames}
+					className={modalClasses}
 					{...restProps}
 				>
 					{children}
@@ -66,7 +78,10 @@ export function ModalHeader({
 }) {
 	const { setIsOpen } = useContext(ModalContext);
 
-	const classNames = clsx(styles["modall-header"], className);
+	const classNames = useMemo(
+		() => clsx(modalStyles.header, className),
+		[className]
+	);
 	return (
 		<div className={classNames} {...restProps}>
 			{children}

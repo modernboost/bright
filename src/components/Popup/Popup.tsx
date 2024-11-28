@@ -1,8 +1,11 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { PopperProps } from "react-popper";
-import styles from "./Popup.module.css";
+import clsx from "clsx";
+import { popupStyles } from "./Popup.styles";
+import ReactDOM from "react-dom";
+import maxSize from "popper-max-size-modifier";
 
 export default function Popup({
 	trigger = "click",
@@ -11,21 +14,25 @@ export default function Popup({
 	popperProps = {},
 	placement = "bottom",
 	open,
+	backdrop,
 	onChange,
+	refEl,
 }: {
 	trigger?: "click" | "hover";
+	backdrop?: boolean;
 	children?: React.ReactNode;
 	referenceElement?: HTMLElement;
 	popperProps?: PopperProps;
 	open?: boolean;
 	placement?: "top" | "bottom" | "left" | "rigth";
 	onChange?: Function | undefined;
+	refEl: React.ReactNode;
 }) {
 	"use memo";
-
-	const [reference, setReference] = useState<HTMLElement | null>(null);
+	const referenceEl = useRef(null);
+	const aftherRefEl = useRef(null);
 	const [show, setShow] = useState(open);
-	const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
+	const floatingEl = useRef(null);
 	const [arrowElement, setArrowElement] = useState(null);
 	const popperInstance = useRef(null);
 
@@ -44,73 +51,96 @@ export default function Popup({
 		setShow((v) => !v);
 	}
 	function windowClickHandler(event) {
-		if (!popperElement?.contains(event.target)) {
+		if (!floatingEl.current?.contains(event.target)) {
 			setShow(false);
 		}
 	}
 	function handleMouseEnter() {
 		clearTimeout(timer);
-		reference.removeEventListener("mouseleave", handleMouseLeave, true);
+		referenceEl.current?.removeEventListener(
+			"mouseleave",
+			handleMouseLeave,
+			true
+		);
 		setShow(true);
 	}
-	function handleMouseLeave() {
+	function handleMouseLeave(event) {
+		if (floatingEl.current?.contains(event.target)) return;
 		timer = setTimeout(() => {
 			setShow(false);
 		}, 300);
 	}
-
-	useEffect(() => {
+	const applyMaxSize = useEffect(() => {
 		if (referenceElement?.current) {
-			setReference(referenceElement.current);
+			referenceEl.current = referenceElement.current;
 		}
-		if (!reference && popperElement) {
-			setReference(popperElement.previousElementSibling);
+		if (!referenceEl.current && floatingEl.current) {
+			referenceEl.current = aftherRefEl.current?.previousElementSibling;
 		}
 
-		if (reference && popperElement) {
+		if (referenceEl.current && floatingEl.current) {
 			if (trigger == "hover") {
-				reference.addEventListener("mouseenter", handleMouseEnter, {
+				referenceEl.current.addEventListener("mouseenter", handleMouseEnter, {
 					capture: true,
 				});
-				reference.addEventListener("mouseleave", handleMouseLeave, {
+				referenceEl.current.addEventListener("mouseleave", handleMouseLeave, {
 					capture: true,
 				});
 
-				popperElement.addEventListener("mouseenter", handleMouseEnter, true);
-				popperElement?.addEventListener("mouseleave", handleMouseLeave, true);
+				floatingEl.current?.addEventListener(
+					"mouseenter",
+					handleMouseEnter,
+					true
+				);
+				floatingEl.current?.addEventListener(
+					"mouseleave",
+					handleMouseLeave,
+					true
+				);
 			} else {
-				reference.addEventListener("click", toggle, { capture: true });
+				referenceEl.current?.addEventListener("click", toggle, {
+					capture: true,
+				});
 			}
 
 			if (show) window.addEventListener("click", windowClickHandler);
 
-			popperInstance.current = createPopper(reference, popperElement, {
-				placement,
-				...popperProps,
-				modifiers: [
-					{
-						name: "offset",
-						options: {
-							offset: [0, 8],
+			popperInstance.current = createPopper(
+				referenceEl.current,
+				floatingEl.current,
+				{
+					placement,
+					...popperProps,
+					modifiers: [
+						{
+							name: "preventOverflow",
+							options: {
+								boundary: "viewport", // Prevent overflow from viewport
+								altBoundary: true, // Check boundaries other than the parent
+							},
 						},
-					},
+						{
+							name: "offset",
+							options: {
+								offset: [0, 10], // Add spacing between the reference and popup
+							},
+						},
+						maxSize,
 
-					{
-						// name: "preventOverflow",
-						options: {
-							boundary: "viewport",
+						{
+							name: "applyMaxSize",
+							enabled: true,
+							phase: "beforeWrite",
+							requires: ["maxSize"],
+							fn({ state }) {
+								const { height } = state.modifiersData.maxSize;
+								state.styles.popper.maxHeight = `${height}px`;
+							},
 						},
-					},
-					//   {
-					//     name: "arrow",
-					//     options: {
-					//       element: arrowElement,
-					//       padding: 5,
-					//     },
-					//   },
-					...(popperProps?.modifiers ?? []),
-				],
-			});
+						...(popperProps?.modifiers ?? []),
+					],
+				}
+			);
 		}
 
 		return () => {
@@ -118,41 +148,64 @@ export default function Popup({
 				popperInstance.current.destroy();
 				popperInstance.current = null;
 			}
-			if (reference) {
+			if (referenceEl.current) {
 				if (trigger == "hover") {
-					reference.removeEventListener("mouseenter", handleMouseEnter, {
-						capture: true,
-					});
-					reference.removeEventListener("mouseleave", handleMouseLeave, {
-						capture: true,
-					});
+					referenceEl.current.removeEventListener(
+						"mouseenter",
+						handleMouseEnter,
+						{
+							capture: true,
+						}
+					);
+					referenceEl.current.removeEventListener(
+						"mouseleave",
+						handleMouseLeave,
+						{
+							capture: true,
+						}
+					);
 
-					popperElement?.removeEventListener(
+					floatingEl.current?.removeEventListener(
 						"mouseenter",
 						handleMouseEnter,
 						true
 					);
-					popperElement?.removeEventListener(
+					floatingEl.current?.removeEventListener(
 						"mouseleave",
 						handleMouseLeave,
 						true
 					);
 				} else {
-					reference.removeEventListener("click", toggle, { capture: true });
+					referenceEl.current.removeEventListener("click", toggle, {
+						capture: true,
+					});
 				}
 			}
 
 			window.removeEventListener("click", windowClickHandler);
 		};
-	}, [reference, popperElement, show, arrowElement]);
+	}, [referenceEl.current, floatingEl.current, show, arrowElement]);
+
+	const popupClasses = useMemo(
+		() => clsx(popupStyles.popup, show && "!block"),
+		[show]
+	);
+	const backdropClasses = useMemo(
+		() => clsx(popupStyles.backdrop, show && backdrop && "!block"),
+		[show]
+	);
 
 	return (
-		<div
-			ref={setPopperElement}
-			className={`${show ? styles.popupOpen : ""} ${styles.popup}`}
-		>
-			{children}
-			<div className={styles.popupArrow} ref={setArrowElement} />
-		</div>
+		<>
+			{refEl}
+			<div ref={aftherRefEl} className={backdropClasses}></div>
+			{ReactDOM.createPortal(
+				<div ref={floatingEl} className={popupClasses}>
+					{children}
+					<div className={popupStyles.arrow} ref={setArrowElement} />
+				</div>,
+				document.body
+			)}
+		</>
 	);
 }
