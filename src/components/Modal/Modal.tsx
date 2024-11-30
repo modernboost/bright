@@ -16,10 +16,14 @@ export default function Modal({
 	children,
 	open = false,
 	onClose = () => {},
+	title,
+	header = true,
 	className,
 	size = "md",
 	...restProps
 }: {
+	title?: string;
+	header?: boolean;
 	restProps?: HTMLElement;
 	className?: string;
 	open?: boolean;
@@ -60,6 +64,7 @@ export default function Modal({
 					className={modalClasses}
 					{...restProps}
 				>
+					{header && <ModalHeader>{title}</ModalHeader>}
 					{children}
 				</div>
 			</div>

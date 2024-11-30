@@ -9,8 +9,19 @@ export default function Page() {
 		<>
 			<div>
 				<Button onClick={() => setOpen(true)}>Open Modal</Button>
-				<Modal size="md" open={open} onClose={setOpen}>
+				<Modal header={false} size="md" open={open} onClose={setOpen}>
 					<ModalHeader>Hellow world</ModalHeader>
+					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
+					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
+					<div>this is the Modal content</div>
+					<div>this is the Modal content</div>
+					<div>this is the Modal content</div>
+					<div>this is the Modal content</div>
+				</Modal>
+			</div>
+			<div>
+				<Button onClick={() => setOpen(true)}>Open Modal</Button>
+				<Modal header title="Modal header" size="md" open={open} onClose={setOpen}>
 					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
 					<div>this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal content this is the Modal contentthis is the Modal content</div>
 					<div>this is the Modal content</div>

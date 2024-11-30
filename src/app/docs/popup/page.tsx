@@ -9,7 +9,7 @@ export default function Page() {
 		<>
 			<div>
 				<button>popup</button>
-				<Popup placement="bottom-end" backdrop trigger='hover'>
+				<Popup	 placement="bottom-end" backdrop trigger='hover'>
 					<div>this is the popup content</div>
 					<div>this is the popup content</div>
 					<div>this is the popup content</div>
