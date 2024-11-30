@@ -21,7 +21,7 @@ export default function Popup({
 	trigger?: "click" | "hover";
 	backdrop?: boolean;
 	children?: React.ReactNode;
-triggerRef?: Ref;
+	triggerRef?: Ref;
 	popperProps?: PopperProps;
 	open?: boolean;
 	placement?: "top" | "bottom" | "left" | "rigth";
