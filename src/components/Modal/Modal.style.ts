@@ -1,7 +1,7 @@
 export const modalStyles = {
 	modal: [
 		"relative",
-		"z-2",
+		"z-[10]",
 		"left-[50%]",
 		"top-[50%]",
 		"w-[100%]",

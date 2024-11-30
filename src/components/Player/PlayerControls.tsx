@@ -1,6 +1,4 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import Button from "../Button/Button";
-import PlayerProgress from "./PlayerProgress";
 import { PlayerContext } from "./Player";
 import Popup from "../Popup/Popup";
 import styles from "./Player.module.css";
@@ -8,8 +6,6 @@ import {
 	IconMaximize,
 	IconPlayerPauseFilled,
 	IconPlayerPlayFilled,
-	IconRewindBackward10,
-	IconRewindForward10,
 	IconVolume,
 	IconVolumeOff,
 } from "@tabler/icons-react";

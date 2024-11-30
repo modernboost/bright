@@ -8,32 +8,8 @@ export default function Page() {
 	return (
 		<>
 			<div>
-				
-				<Popup  backdrop refEl={<button>popup</button>} trigger='hover'>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
-					<div>this is the popup content</div>
+				<button>popup</button>
+				<Popup backdrop trigger='hover'>
 					<div>this is the popup content</div>
 					<div>this is the popup content</div>
 					<div>this is the popup content</div>
