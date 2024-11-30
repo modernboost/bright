@@ -1,5 +1,11 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import { createPopper } from "@popperjs/core";
 import { PopperProps } from "react-popper";
 import clsx from "clsx";
@@ -55,22 +61,37 @@ export default function Popup({
 			setShow(false);
 		}
 	}
+
+	const eventlistener = useCallback(() => {
+		if (show) {
+			window.addEventListener("mouseover", handleMouseLeave);
+		} else {
+			window.removeEventListener("mouseover", handleMouseLeave);
+		}
+	}, [show]);
+	
+	useEffect(() => {
+		window.removeEventListener("mouseover", handleMouseLeave);
+	}, []);
+	
 	function handleMouseEnter() {
 		clearTimeout(timer);
-		referenceEl.current?.removeEventListener(
-			"mouseleave",
-			handleMouseLeave,
-			true
-		);
-		setShow(true);
+		console.log("mouse entered");
+		if (!show) {
+			setShow(true);
+		}
 	}
 	function handleMouseLeave(event) {
+		console.log("mouse laeaved", event.target);
 		if (floatingEl.current?.contains(event.target)) return;
+		console.log("mouse leave  on floating");
+		clearTimeout(timer);
 		timer = setTimeout(() => {
 			setShow(false);
 		}, 300);
 	}
-	const applyMaxSize = useEffect(() => {
+
+	useEffect(() => {
 		if (referenceElement?.current) {
 			referenceEl.current = referenceElement.current;
 		}
@@ -78,70 +99,66 @@ export default function Popup({
 			referenceEl.current = aftherRefEl.current?.previousElementSibling;
 		}
 
-		if (referenceEl.current && floatingEl.current) {
-			if (trigger == "hover") {
-				referenceEl.current.addEventListener("mouseenter", handleMouseEnter, {
-					capture: true,
-				});
-				referenceEl.current.addEventListener("mouseleave", handleMouseLeave, {
-					capture: true,
-				});
-
-				floatingEl.current?.addEventListener(
-					"mouseenter",
-					handleMouseEnter,
-					true
-				);
-				floatingEl.current?.addEventListener(
-					"mouseleave",
-					handleMouseLeave,
-					true
-				);
-			} else {
-				referenceEl.current?.addEventListener("click", toggle, {
-					capture: true,
-				});
-			}
-
-			if (show) window.addEventListener("click", windowClickHandler);
-
-			popperInstance.current = createPopper(
-				referenceEl.current,
-				floatingEl.current,
-				{
-					placement,
-					...popperProps,
-					modifiers: [
-						{
-							name: "preventOverflow",
-							options: {
-								boundary: "viewport", // Prevent overflow from viewport
-								altBoundary: true, // Check boundaries other than the parent
-							},
-						},
-						{
-							name: "offset",
-							options: {
-								offset: [0, 10], // Add spacing between the reference and popup
-							},
-						},
-						maxSize,
-
-						{
-							name: "applyMaxSize",
-							enabled: true,
-							phase: "beforeWrite",
-							requires: ["maxSize"],
-							fn({ state }) {
-								const { height } = state.modifiersData.maxSize;
-								state.styles.popper.maxHeight = `${height}px`;
-							},
-						},
-						...(popperProps?.modifiers ?? []),
-					],
-				}
-			);
+		if (!referenceEl.current || !floatingEl.current) {
+			return;
 		}
+
+		if (trigger == "hover") {
+			referenceEl.current.addEventListener("mouseenter", handleMouseEnter, {});
+			// referenceEl.current.addEventListener("mouseleave", handleMouseLeave, {
+			// 	capture: true,
+			// });
+
+			floatingEl.current?.addEventListener("mouseenter", handleMouseEnter);
+			// floatingEl.current?.addEventListener(
+			// 	"mouseleave",
+			// 	handleMouseLeave,
+			// 	true
+			// );
+		} else {
+			referenceEl.current?.addEventListener("click", toggle, {
+				capture: true,
+			});
+		}
+
+		if (show) window.addEventListener("click", windowClickHandler);
+
+		popperInstance.current = createPopper(
+			referenceEl.current,
+			floatingEl.current,
+			{
+				placement,
+				...popperProps,
+				modifiers: [
+					{
+						name: "preventOverflow",
+						options: {
+							boundary: "viewport", // Prevent overflow from viewport
+							altBoundary: true, // Check boundaries other than the parent
+						},
+					},
+					{
+						name: "offset",
+						options: {
+							offset: [0, 10], // Add spacing between the reference and popup
+						},
+					},
+					maxSize,
+
+					{
+						name: "applyMaxSize",
+						enabled: true,
+						phase: "beforeWrite",
+						requires: ["maxSize"],
+						fn({ state }) {
+							const { height } = state.modifiersData.maxSize;
+							state.styles.popper.maxHeight = `${height}px`;
+						},
+					},
+					...(popperProps?.modifiers ?? []),
+				],
+			}
+		);
 
 		return () => {
 			if (popperInstance.current) {
@@ -153,28 +170,25 @@ export default function Popup({
 					referenceEl.current.removeEventListener(
 						"mouseenter",
 						handleMouseEnter,
-						{
-							capture: true,
-						}
+						{}
 					);
-					referenceEl.current.removeEventListener(
-						"mouseleave",
-						handleMouseLeave,
-						{
-							capture: true,
-						}
-					);
+					// referenceEl.current.removeEventListener(
+					// 	"mouseleave",
+					// 	handleMouseLeave,
+					// 	{
+					// 	}
+					// );
 
 					floatingEl.current?.removeEventListener(
 						"mouseenter",
-						handleMouseEnter,
-						true
+						handleMouseEnter
+						// true
 					);
-					floatingEl.current?.removeEventListener(
-						"mouseleave",
-						handleMouseLeave,
-						true
-					);
+					// floatingEl.current?.removeEventListener(
+					// 	"mouseleave",
+					// 	handleMouseLeave,
+					// 	true
+					// );
 				} else {
 					referenceEl.current.removeEventListener("click", toggle, {
 						capture: true,
