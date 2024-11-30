@@ -17,8 +17,8 @@ export default function Popup({
 	backdrop,
 	onChange,
 	triggerEl,
-	className
-
+	offset = 10,
+	className,
 }: {
 	trigger?: "click" | "hover";
 	backdrop?: boolean;
@@ -27,6 +27,7 @@ export default function Popup({
 	popperProps?: PopperProps;
 	open?: boolean;
 	className?: string;
+	offset?: number;
 	placement?:
 		| "auto"
 		| "auto-start"
@@ -127,7 +128,7 @@ export default function Popup({
 					{
 						name: "offset",
 						options: {
-							offset: [0, 10], // Add spacing between the reference and popup
+							offset: [0, offset], // Add spacing between the reference and popup
 						},
 					},
 					maxSize,
@@ -168,7 +169,7 @@ export default function Popup({
 
 	const popupClasses = useMemo(
 		() => clsx(popupStyles.popup, show && "!block", className),
-		[show ]
+		[show]
 	);
 	const backdropClasses = useMemo(
 		() => clsx(popupStyles.backdrop, show && backdrop && "!block"),
