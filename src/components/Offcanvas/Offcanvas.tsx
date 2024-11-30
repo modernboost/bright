@@ -1,121 +1,107 @@
-'use client'
-
-import clsx from "clsx";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import Text from "../Text/Text";
 import { IconX } from "@tabler/icons-react";
-import Link from "next/link";
-// import IsCurrentPath from "@/helpers/IsCurrentPath";
-const IsCurrentPath = ()=>{}
-
-export const OffcanvasContext = createContext({
-  open: false,
-  setOpen: (prev)=>prev,
-});
+import React, {
+	ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import clsx from "clsx";
+import { BaseSize } from "../BaseTypes";
+import { offCanvasStyles } from "./Offcanvas.styles";
+const OffcanvasContext = createContext(false);
 
 export default function Offcanvas({
-  open = false,
-  position = "left",
-  items = [],
-  title,
-  onChange = () => {},
+	children,
+	open = false,
+	onClose = () => {},
+	title,
+	direction = "left",
+	header = true,
+	className,
+	size = "md",
+	...restProps
 }: {
-  position: "left" | "right";
-  title?: string;
-  open?: boolean;
-  onChange?: Function;
-  items: Array<Record<string, any>>;
+	title?: string;
+	direction?: "left" | "right";
+	header?: boolean;
+	restProps?: HTMLElement;
+	className?: string;
+	open?: boolean;
+	onClose: Function;
+	size?: BaseSize;
+	children: React.ReactNode;
 }) {
-  const [isOpen, setOpen] = useState(false);
-  useEffect(() => {
-    setOpen(open);
-  }, [open]);
+	useEffect(() => {
+		setIsOpen(open);
+	}, [open]);
+	const [isOpen, setIsOpen] = useState(open);
 
-  useEffect(() => {
-    console.log("change");
-    onChange(isOpen);
-  }, [isOpen]);
+	useEffect(() => {
+		!isOpen && onClose(isOpen);
+	}, [isOpen]);
 
-  return (
-    <OffcanvasContext.Provider value={{ open: isOpen, setOpen }}>
-      {open && (
-        <div
-          className="b-offcanvas-backdrop"
-          onClick={() => setOpen(false)}
-        ></div>
-      )}
-      <div className={clsx(!isOpen && "hidden", "b-offcanvas", position)}>
-        <OffcanvasHeader title={title}></OffcanvasHeader>
-        <OffcanvasBody>
-          {items.map((item, i) => {
-            return <OffcanvasItem key={i} item={item} />;
-          })}
-        </OffcanvasBody>
-      </div>
-    </OffcanvasContext.Provider>
-  );
+	const modalClasses = useMemo(
+		() =>
+			clsx(
+				offCanvasStyles.base,
+				offCanvasStyles.size[size],
+				offCanvasStyles.direction[direction],
+				className
+			),
+		[className, direction]
+	);
+	const backdropClasses = useMemo(
+		() => clsx(offCanvasStyles.backdrop, !isOpen && "hidden"),
+		[isOpen]
+	);
+
+	return (
+		<OffcanvasContext.Provider value={{ isOpen, setIsOpen }}>
+			<div
+				onClick={() => {
+					onClose();
+				}}
+				className={backdropClasses}
+			>
+				<div
+					onClick={(e) => {
+						e.stopPropagation();
+					}}
+					className={modalClasses}
+					{...restProps}
+				>
+					{header && <OffcanvasHeader>{title}</OffcanvasHeader>}
+					{children}
+				</div>
+			</div>
+		</OffcanvasContext.Provider>
+	);
 }
 
-function OffcanvasBody({ children }: { children: React.ReactNode }) {
-  return <div className="b-offcanvas-body">{children}</div>;
-}
-
-function OffcanvasItem({ item }: { item?: Record<string, any> }) {
-  const { setOpen } = useContext(OffcanvasContext);
-  if (item.items) {
-    return items.map((item, i) => (
-      <OffcanvasItem key={i} label={item.label} Icon={item.icon} />
-    ));
-  }
-
-  return (
-    <div className="b-offcanvas-item ">
-      {item.href ? (
-        <Link
-          prefetch={true}
-          className={`flex gap-3 items-center ${
-            IsCurrentPath(item.href) && "text-primary-500"
-          }`}
-          href={item.href ?? "#"}
-          key={item.label}
-          onClick={() => {
-            setOpen(false);
-          }}
-        >
-          {item.icon}
-          {item.label}
-          <div className="flex-auto">{item.component}</div>
-        </Link>
-      ) : (
-        <div className="flex gap-3 items-center">
-          {item.icon}
-          {item.label}
-          {item.component}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function OffcanvasHeader({
-  title,
-  children,
+export function OffcanvasHeader({
+	children,
+	className,
+	...restProps
 }: {
-  title?: string;
-  children?: React.ReactNode;
+	className?: string;
+	restProps?: HTMLDivElement;
+	children?: ReactNode;
 }) {
-  const { setOpen } = useContext(OffcanvasContext);
-  return (
-    <div className="b-offcanvas-header ">
-      <Text type="h3">{title}</Text>
-      {children}
-      <IconX
-        className="cursor-pointer"
-        onClick={() => {
-          console.log("this");
-          setOpen(false);
-        }}
-      />
-    </div>
-  );
+	const { setIsOpen } = useContext(OffcanvasContext);
+
+	const classNames = useMemo(
+		() => clsx(offCanvasStyles.header, className),
+		[className]
+	);
+	return (
+		<div className={classNames} {...restProps}>
+			{children}
+			<IconX
+				onClick={() => setIsOpen(false)}
+				className='hover:text-red-500 hover:cursor-pointer'
+			/>
+		</div>
+	);
 }

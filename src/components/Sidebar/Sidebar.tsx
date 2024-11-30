@@ -22,16 +22,20 @@ export default function Sidebar({}) {
 			link: "/docs/popup",
 			icon: "user",
 		},
+		{
+			label: "Offcanvas",
+			link: "/docs/offcanvas",
+			icon: "user",
+		},
 	];
 	return (
-		<div className="border">
+		<div className='border'>
 			<div>Nav header</div>
 			<nav className='flex flex-col'>
 				{items.map((item) => {
 					return (
-						<Link href={item.link}>
-							{item.label}{" "}
-							{item.icon}
+						<Link className='p-2 hover:bg-sky-200 ' href={item.link}>
+							{item.label} {item.icon}
 						</Link>
 					);
 				})}

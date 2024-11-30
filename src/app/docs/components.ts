@@ -10,4 +10,5 @@ export const components = [
 	{ name: "Swipper", href: "swipper" },
 	{ name: "Text", href: "text" },
 	{ name: "Navbar", href: "navbar" },
+	{ name: "Offcanvas", href: "offcanvas" },
 ];
