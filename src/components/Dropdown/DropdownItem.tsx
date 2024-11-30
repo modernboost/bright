@@ -1,44 +1,40 @@
 import Link from "next/link";
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode, useContext, useMemo } from "react";
 import { DropdownContext } from "./Dropdown";
-import styles from './Dropdown.module.css'
+import styles from "./Dropdown.module.css";
+import { dropdownItemStyles } from "./DropdownItem.styles";
+import clsx from "clsx";
 
 export default function DropdownItem({
-  icon,
-  text,
-  href,
-  children,
-  autoClose = true,
-  ...rest
+	icon,
+	text,
+	href,
+	children,
+	autoClose = true,
+	...rest
 }: {
-  icon?: ReactNode | undefined;
-  text: string | number;
-  href?: string | undefined;
-  children?: React.ReactNode | undefined;
-  autoClose?: boolean;
+	icon?: ReactNode | undefined;
+	text: string | number;
+	href?: string | undefined;
+	children?: React.ReactNode | undefined;
+	autoClose?: boolean;
 }) {
-  return (
-    <>
-      {href ? (
-        <Link
-          className="w-full  rounded p-2 hover:bg-slate-200 b-dropdown-item"
-          href={href}
-          {...rest}
-        >
-          {icon}
-          {text}
-          {children}
-        </Link>
-      ) : (
-        <div
-        {...rest}
-          className={styles.dropdownItem}
-        >
-          {icon}
-          {text}
-          {children}
-        </div>
-      )}
-    </>
-  );
+	const classNames = useMemo(() => clsx(dropdownItemStyles.base), []);
+	return (
+		<>
+			{href ? (
+				<Link className={classNames} href={href} {...rest}>
+					{icon}
+					{text}
+					{children}
+				</Link>
+			) : (
+				<div {...rest} className={classNames}>
+					{icon}
+					{text}
+					{children}
+				</div>
+			)}
+		</>
+	);
 }

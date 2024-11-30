@@ -17,6 +17,8 @@ export default function Popup({
 	backdrop,
 	onChange,
 	triggerEl,
+	className
+
 }: {
 	trigger?: "click" | "hover";
 	backdrop?: boolean;
@@ -24,7 +26,23 @@ export default function Popup({
 	triggerRef?: Ref;
 	popperProps?: PopperProps;
 	open?: boolean;
-	placement?: "top" | "bottom" | "left" | "rigth";
+	className?: string;
+	placement?:
+		| "auto"
+		| "auto-start"
+		| "auto-end"
+		| "top"
+		| "top-start"
+		| "top-end"
+		| "bottom"
+		| "bottom-start"
+		| "bottom-end"
+		| "right"
+		| "right-start"
+		| "right-end"
+		| "left"
+		| "left-start"
+		| "left-end";
 	onChange?: Function | undefined;
 	triggerEl?: React.ReactNode;
 }) {
@@ -149,8 +167,8 @@ export default function Popup({
 	}, [referenceEl.current, floatingEl.current, show, arrowElement]);
 
 	const popupClasses = useMemo(
-		() => clsx(popupStyles.popup, show && "!block"),
-		[show]
+		() => clsx(popupStyles.popup, show && "!block", className),
+		[show ]
 	);
 	const backdropClasses = useMemo(
 		() => clsx(popupStyles.backdrop, show && backdrop && "!block"),
