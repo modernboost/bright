@@ -10,3 +10,5 @@ export { default as Player } from "./Player/Player";
 export { default as FileUpload } from "./FileUpload/FileUpload";
 export { default as Modal } from "./Modal/Modal";
 export { ModalHeader } from "./Modal/Modal";
+export { default as Offcanvas } from "./Offcanvas/Offcanvas";
+export { OffcanvasHeader } from "./Offcanvas/Offcanvas";

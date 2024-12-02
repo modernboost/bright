@@ -1,7 +1,7 @@
 export const modalStyles = {
 	modal: [
 		"relative",
-		"z-[10]",
+		"z-[21]",
 		"left-[50%]",
 		"top-[50%]",
 		"w-[100%]",
@@ -17,5 +17,5 @@ export const modalStyles = {
 		lg: "sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl",
 	},
 	header: ["flex justify-between border-b pb-1"],
-	backdrop: ["fixed z-1 left-0 top-0 w-[100vw] h-[100vh] bg-[#0000005c]"],
+	backdrop: ["fixed z-[20] left-0 top-0 w-[100vw] h-[100vh] bg-[#0000005c]"],
 };
