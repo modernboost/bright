@@ -66,7 +66,7 @@ export default function Popup({
 	}, [show]);
 
 	function toggle(event: Event) {
-		event.stopImmediatePropagation();
+		event.stopPropagation();
 		setShow((v) => !v);
 	}
 	function windowClickHandler(event) {
@@ -74,7 +74,6 @@ export default function Popup({
 			setShow(false);
 		}
 	}
-
 	function handleMouseEnter() {
 		timer && clearTimeout(timer);
 		if (!show) {
@@ -109,7 +108,7 @@ export default function Popup({
 			floatingEl.current?.addEventListener("mouseleave", handleMouseLeave);
 		}
 
-		if (show) window.addEventListener("click", windowClickHandler);
+		if (show) window.addEventListener("click", windowClickHandler, true);
 
 		popperInstance.current = createPopper(
 			referenceEl.current,
@@ -154,7 +153,7 @@ export default function Popup({
 				popperInstance.current = null;
 			}
 
-			window.removeEventListener("click", windowClickHandler);
+			window.removeEventListener("click", windowClickHandler, true);
 
 			if (!referenceEl.current) return;
 			referenceEl.current.removeEventListener("click", toggle);

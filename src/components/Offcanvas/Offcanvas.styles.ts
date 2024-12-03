@@ -8,8 +8,8 @@ export const offCanvasStyles = {
 		"overflow-auto  p-4 inline-block border top-0",
 	],
 	direction: {
-		left:" left-0",
-		right: 'right-0'
+		left: " left-0",
+		right: "right-0",
 	},
 	size: {
 		sm: "sm:max-w-sm ",
@@ -17,5 +17,5 @@ export const offCanvasStyles = {
 		lg: "sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl",
 	},
 	header: ["flex justify-between border-b pb-1"],
-	backdrop: ["fixed z-1 left-0 top-0 w-[100vw] h-[100vh] bg-[#0000005c]"],
+	backdrop: ["fixed z-[55] left-0 top-0 w-[100vw] h-[100vh] bg-[#0000005c]"],
 };
