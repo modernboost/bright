@@ -32,6 +32,7 @@ export default function FileUpload({
 	);
 	const [size, setSize] = useState(undefined);
 	const [duration, setDuration] = useState(undefined);
+	const [fileName, setFileName] = useState(undefined);
 	const [uploadProgress, setUploadProgress] = useState<Number>(0);
 
 	async function fileChange(event) {
@@ -43,7 +44,8 @@ export default function FileUpload({
 				if (event.target.files[0]?.type?.startsWith("video")) {
 					setDuration(getVideoDuration(event.target.files[0]));
 				}
-				setSize(event.target.files[0]);
+				setSize(event.target.files[0]?.size);
+				setFileName(event.target.files[0]?.name);
 				const temp = await onFileSelect({
 					files: event.target.files,
 					accessType,
@@ -104,6 +106,13 @@ export default function FileUpload({
 				readOnly
 				value={duration ?? ""}
 				name='video_duration'
+			/>
+			<input
+				type='text'
+				hidden
+				readOnly
+				value={fileName ?? ""}
+				name='file_name'
 			/>
 			<Preview
 				PreviewComponenet={PreviewComponenet}
