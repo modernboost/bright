@@ -30,6 +30,8 @@ export default function FileUpload({
 	const [uploadedUrl, setUploadedUrl] = useState<string | undefined>(
 		defaultFile
 	);
+	const [size, setSize] = useState(undefined);
+	const [duration, setDuration] = useState(undefined);
 	const [uploadProgress, setUploadProgress] = useState<Number>(0);
 
 	async function fileChange(event) {
@@ -38,6 +40,10 @@ export default function FileUpload({
 
 		if (onFileSelect) {
 			try {
+				if (event.target.files[0]?.type?.startsWith("video")) {
+					setDuration(getVideoDuration(event.target.files[0]));
+				}
+				setSize(event.target.files[0]);
 				const temp = await onFileSelect({
 					files: event.target.files,
 					accessType,
@@ -66,6 +72,20 @@ export default function FileUpload({
 		setUploadProgress(0);
 		setUploading(false);
 	}
+	function getVideoDuration(file) {
+		let duration = 0;
+		const video = document.createElement("video"); // Create a video element
+		const videoURL = URL.createObjectURL(file); // Create a temporary object URL
+
+		video.src = videoURL; // Set the video source
+		video.preload = "metadata"; // Only load metadata
+		// When metadata is loaded, retrieve duration
+		video.addEventListener("loadedmetadata", () => {
+			duration = video.duration; // Get the duration in seconds
+			URL.revokeObjectURL(videoURL);
+		});
+		return duration;
+	}
 
 	return (
 		<div className={styles.fileUpload}>
@@ -76,6 +96,14 @@ export default function FileUpload({
 				readOnly
 				value={uploadedUrl ?? ""}
 				name={name}
+			/>
+			<input type='text' hidden readOnly value={size ?? ""} name='file_size' />
+			<input
+				type='text'
+				hidden
+				readOnly
+				value={duration ?? ""}
+				name='video_duration'
 			/>
 			<Preview
 				PreviewComponenet={PreviewComponenet}
