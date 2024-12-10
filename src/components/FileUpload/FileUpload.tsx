@@ -1,7 +1,11 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import styles from "./FileUpload.module.css";
 import { Button } from "../index.ts";
+import IconTrash from "./IconTrash";
+import IconReplace from "./IconReplace";
+import IconAdd from "./IconAdd";
+import IconCancel from "./IconCancel";
 
 export default function FileUpload({
 	onFileSelect,
@@ -46,13 +50,13 @@ export default function FileUpload({
 				}
 				setSize(event.target.files[0]?.size);
 				setFileName(event.target.files[0]?.name);
-				const temp = await onFileSelect({
+				const response = await onFileSelect({
 					files: event.target.files,
 					accessType,
 					accessName,
 					setUploadProgress,
 				});
-				setUploadedUrl(temp);
+				setUploadedUrl(response);
 			} catch (error) {
 				reset();
 			}
@@ -88,80 +92,63 @@ export default function FileUpload({
 		});
 		return duration;
 	}
+	useEffect(() => {
+		console.log({ uploading });
+	}, [uploading]);
 
 	return (
 		<div className={styles.fileUpload}>
 			{/* <input type='text' hidden readOnly value={access} name={accessName} /> */}
-			<input
-				type='text'
-				hidden
-				readOnly
-				value={uploadedUrl ?? ""}
-				name={name}
-			/>
+			<input hidden readOnly value={uploadedUrl ?? ""} name={name} />
 			<input type='text' hidden readOnly value={size ?? ""} name='file_size' />
-			<input
-				type='text'
-				hidden
-				readOnly
-				value={duration ?? ""}
-				name='video_duration'
-			/>
-			<input
-				type='text'
-				hidden
-				readOnly
-				value={fileName ?? ""}
-				name='file_name'
-			/>
+			<input hidden readOnly value={duration ?? ""} name='video_duration' />
+			<input hidden readOnly value={fileName ?? ""} name='file_name' />
 			<Preview
 				PreviewComponenet={PreviewComponenet}
 				multiple={multiple}
 				uploadedUrl={uploadedUrl}
 			/>
-			<Progress uploadProgress={uploadProgress} />
+			{uploading && <Progress uploadProgress={uploadProgress} />}
 
 			<Uploading uploading={uploading} />
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					gap: "0.5em",
-				}}
-			>
+			<div className='flex justify-center items-center gap-2 text-lg font-bold'>
 				{!uploading && (
+					<>
+						<Button
+							className='bg-sky-500 p-2 rounded-md  hover:bg-sky-700 text-white relative'
+							type='button'
+							
+							color='primary'
+						>
+							{uploadedUrl ? <IconReplace /> : <IconAdd />}
+							<input
+								className='absolute w-full h-full top-0 left-0 opacity-0 '
+								multiple={multiple}
+								type='file'
+								accept={accept}
+								onChange={fileChange}
+							/>
+						</Button>
+						{uploadedUrl && (
+							<Button
+								className=' bg-sky-500 p-2 rounded-md  hover:bg-red-700 text-white'
+								type='button'
+								onClick={deleteFile}
+							>
+								<IconTrash />
+							</Button>
+						)}
+					</>
+				)}
+
+				{uploading && (
 					<Button
 						type='button'
-						style={{
-							position: "relative",
-						}}
+						className='bg-sky-500 p-2 rounded-md  hover:bg-red-700 text-white'
+						onClick={cancelUpload}
 					>
-						{uploadedUrl ? "Change" : "Select a File"}
-						<input
-							style={{
-								width: "100%",
-								height: "100%",
-								position: "absolute",
-								top: 0,
-								left: 0,
-								opacity: "0",
-							}}
-							multiple={multiple}
-							type='file'
-							accept={accept}
-							onChange={fileChange}
-						/>
-					</Button>
-				)}
-				{uploadedUrl && (
-					<Button type='button' onClick={deleteFile}>
-						Delete
-					</Button>
-				)}
-				{uploading && (
-					<Button type='button' onClick={cancelUpload}>
-						Cancel
+						{/* Cancel */}
+						<IconCancel />
 					</Button>
 				)}
 			</div>
@@ -180,11 +167,7 @@ function Preview({
 }) {
 	if (!uploadedUrl) return;
 	if (PreviewComponenet)
-		return (
-			<div className='previrew' style={{ width: "100%" }}>
-				{PreviewComponenet}
-			</div>
-		);
+		return <div className='previrew w-full'>{PreviewComponenet}</div>;
 
 	let items = null;
 
@@ -204,41 +187,18 @@ function Uploading({ uploading }: { uploading: boolean }) {
 }
 
 function Progress({ uploadProgress }: { uploadProgress: Number }) {
-	if (uploadProgress == 100) return;
-	if (uploadProgress == 0) return;
+	if (uploadProgress == 100) return "Upload completed";
+	if (uploadProgress == 0) "prepairing";
 
 	return (
-		<div
-			style={{
-				position: "relative",
-				width: "100%",
-				height: "1.5rem",
-				padding: "0",
-				background: "#ddd",
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-			}}
-		>
+		<div className='relative w-full h-5 p-0 bg-[#ddd] flex items-center justify-center'>
 			<div
+				className='absolute left-0 m-0 h-full bg-sky-500'
 				style={{
-					transition: "width ease-in-out 1000ms",
-					position: "absolute",
-					left: 0,
 					width: `${uploadProgress}%`,
-					margin: "0",
-					height: "100%",
-					background: "#1c82ee",
 				}}
 			/>
-			<span
-				style={{
-					position: "absolute",
-					fontSize: "small",
-				}}
-			>
-				{Math.round(uploadProgress)}%
-			</span>
+			<span className='absolute font-light'>{Math.round(uploadProgress)}%</span>
 		</div>
 	);
 }
