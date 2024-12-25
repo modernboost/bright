@@ -5,16 +5,11 @@ export default function IconAdd() {
 			width={24}
 			height={24}
 			viewBox='0 0 24 24'
-			fill='none'
-			stroke='currentColor'
-			strokeWidth={2}
-			strokeLinecap='round'
-			strokeLinejoin='round'
-			className='feather feather-plus-circle'
 		>
-			<circle cx={12} cy={12} r={10} />
-			<line x1={12} y1={8} x2={12} y2={16} />
-			<line x1={8} y1={12} x2={16} y2={12} />
+			<path
+				fill='currentColor'
+				d='M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16zm-5 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z'
+			/>
 		</svg>
 	);
 }

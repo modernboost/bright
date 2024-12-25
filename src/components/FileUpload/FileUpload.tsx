@@ -46,7 +46,7 @@ export default function FileUpload({
 		if (onFileSelect) {
 			try {
 				if (event.target.files[0]?.type?.startsWith("video")) {
-					setDuration(getVideoDuration(event.target.files[0]));
+					setVideoDuration(event.target.files[0]);
 				}
 				setSize(event.target.files[0]?.size);
 				setFileName(event.target.files[0]?.name);
@@ -78,7 +78,7 @@ export default function FileUpload({
 		setUploadProgress(0);
 		setUploading(false);
 	}
-	function getVideoDuration(file) {
+	function setVideoDuration(file) {
 		let duration = 0;
 		const video = document.createElement("video"); // Create a video element
 		const videoURL = URL.createObjectURL(file); // Create a temporary object URL
@@ -87,21 +87,20 @@ export default function FileUpload({
 		video.preload = "metadata"; // Only load metadata
 		// When metadata is loaded, retrieve duration
 		video.addEventListener("loadedmetadata", () => {
-			duration = video.duration; // Get the duration in seconds
+			setDuration(video.duration); // Get the duration in seconds
 			URL.revokeObjectURL(videoURL);
 		});
-		return duration;
 	}
 	useEffect(() => {
-		console.log({ uploading });
-	}, [uploading]);
+		console.log({ duration });
+	}, [duration]);
 
 	return (
 		<div className={styles.fileUpload}>
 			{/* <input type='text' hidden readOnly value={access} name={accessName} /> */}
 			<input hidden readOnly value={uploadedUrl ?? ""} name={name} />
 			<input type='text' hidden readOnly value={size ?? ""} name='file_size' />
-			<input hidden readOnly value={duration ?? ""} name='video_duration' />
+			<input hidden readOnly value={duration ?? ""} name='file_length' />
 			<input hidden readOnly value={fileName ?? ""} name='file_name' />
 			<Preview
 				PreviewComponenet={PreviewComponenet}
@@ -110,17 +109,26 @@ export default function FileUpload({
 			/>
 			{uploading && <Progress uploadProgress={uploadProgress} />}
 
-			<Uploading uploading={uploading} />
 			<div className='flex justify-center items-center gap-2 text-lg font-bold'>
 				{!uploading && (
 					<>
 						<Button
 							className='bg-sky-500 p-2 rounded-md  hover:bg-sky-700 text-white relative'
 							type='button'
-							
 							color='primary'
 						>
-							{uploadedUrl ? <IconReplace /> : <IconAdd />}
+							{/* {uploadedUrl ? (
+								<IconReplace />
+							) : (
+								<div className='flex gap-1'>
+									<IconAdd />
+									<div>Browse</div>
+								</div>
+							)} */}
+							<div className='flex gap-1'>
+								<IconAdd />
+								<div className='text-sm'>Browse</div>
+							</div>
 							<input
 								className='absolute w-full h-full top-0 left-0 opacity-0 '
 								multiple={multiple}
@@ -131,11 +139,14 @@ export default function FileUpload({
 						</Button>
 						{uploadedUrl && (
 							<Button
-								className=' bg-sky-500 p-2 rounded-md  hover:bg-red-700 text-white'
+								className=' bg-sky-500 p-2 rounded-md hover:bg-sky-700 hover:text-red-500 text-white'
 								type='button'
 								onClick={deleteFile}
 							>
-								<IconTrash />
+								<div className='flex gap-1 text-sm'>
+									<IconTrash />
+									<div className='text-sm'>Remove</div>
+								</div>
 							</Button>
 						)}
 					</>
@@ -144,11 +155,13 @@ export default function FileUpload({
 				{uploading && (
 					<Button
 						type='button'
-						className='bg-sky-500 p-2 rounded-md  hover:bg-red-700 text-white'
+						className='bg-sky-500 p-2 rounded-md hover:bg-sky-700 hover:text-red-500 text-white'
 						onClick={cancelUpload}
 					>
-						{/* Cancel */}
-						<IconCancel />
+						<div className='flex gap-1'>
+							<IconCancel />
+							<div className='text-sm'>Cancel</div>
+						</div>
 					</Button>
 				)}
 			</div>
@@ -180,15 +193,9 @@ function Preview({
 	return <div>{items}</div>;
 }
 
-function Uploading({ uploading }: { uploading: boolean }) {
-	console.log({ uploading });
-	if (!uploading) return;
-	return <div>Uploading</div>;
-}
-
 function Progress({ uploadProgress }: { uploadProgress: Number }) {
-	if (uploadProgress == 100) return "Upload completed";
-	if (uploadProgress == 0) "prepairing";
+	if (uploadProgress == 100) return "Upload completed, waiting...";
+	if (uploadProgress == 0) "Starting upload";
 
 	return (
 		<div className='relative w-full h-5 p-0 bg-[#ddd] flex items-center justify-center'>
