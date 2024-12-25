@@ -19,7 +19,9 @@ export default function Popup({
 	triggerEl,
 	offset = 10,
 	className,
+	portalEl,
 }: {
+	portalEl?: React.ReactNode;
 	trigger?: "click" | "hover";
 	backdrop?: boolean;
 	children?: React.ReactNode;
@@ -54,6 +56,13 @@ export default function Popup({
 	const floatingEl = useRef(null);
 	const [arrowElement, setArrowElement] = useState(null);
 	const popperInstance = useRef(null);
+	const [portalRef, setPortalRef] = useState(null);
+
+	useEffect(() => {
+		setPortalRef(
+			portalEl ? portalEl : typeof window !== "undefined" ? document.body : null
+		);
+	}, [portalEl]);
 
 	let timer: number | null = null;
 
@@ -179,13 +188,23 @@ export default function Popup({
 		<>
 			{triggerEl && triggerEl}
 			<div ref={aftherTriggerEl} className={backdropClasses}></div>
-			{ReactDOM.createPortal(
-				<div ref={floatingEl} className={popupClasses}>
-					{children}
-					<div className={popupStyles.arrow} ref={setArrowElement} />
-				</div>,
-				document.body
-			)}
+			{portalRef &&
+				ReactDOM.createPortal(
+					<div ref={floatingEl} className={popupClasses}>
+						{children}
+						<div className={popupStyles.arrow} ref={setArrowElement} />
+					</div>,
+					portalRef
+				)}
+			{/* {!portalEl &&
+				typeof window !== "undefined" &&
+				ReactDOM.createPortal(
+					<div ref={floatingEl} className={popupClasses}>
+						{children}
+						<div className={popupStyles.arrow} ref={setArrowElement} />
+					</div>,
+					document.body
+				)} */}
 		</>
 	);
 }
