@@ -8,6 +8,9 @@ import IconAdd from "./IconAdd";
 import IconCancel from "./IconCancel";
 
 export default function FileUpload({
+	browsLabel,
+	removeLabel,
+	cancelLabel,
 	onFileSelect,
 	multiple = false,
 	name,
@@ -19,6 +22,9 @@ export default function FileUpload({
 	accessType = "public",
 	accessName = "contentType",
 }: {
+	browsLabel?: string;
+	removeLabel?: string;
+	cancelLabel?: string;
 	defaultFile?: string;
 	multiple?: boolean;
 	accept?: string;
@@ -127,7 +133,9 @@ export default function FileUpload({
 							)} */}
 							<div className='flex gap-1'>
 								<IconAdd />
-								<div className='text-sm'>Browse</div>
+								<div className='text-sm'>
+									{browsLabel ? browsLabel : "Browse"}
+								</div>
 							</div>
 							<input
 								className='absolute w-full h-full top-0 left-0 opacity-0 '
@@ -145,7 +153,9 @@ export default function FileUpload({
 							>
 								<div className='flex gap-1 text-sm'>
 									<IconTrash />
-									<div className='text-sm'>Remove</div>
+									<div className='text-sm'>
+										{removeLabel ? removeLabel : "Remove"}
+									</div>
 								</div>
 							</Button>
 						)}
@@ -160,7 +170,9 @@ export default function FileUpload({
 					>
 						<div className='flex gap-1'>
 							<IconCancel />
-							<div className='text-sm'>Cancel</div>
+							<div className='text-sm'>
+								{cancelLabel ? cancelLabel : "Cancel"}
+							</div>
 						</div>
 					</Button>
 				)}
