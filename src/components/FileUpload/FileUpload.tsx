@@ -51,7 +51,7 @@ export default function FileUpload({
 
 		if (onFileSelect) {
 			try {
-				if (event.target.files[0]?.type?.startsWith("video")) {
+				if (event.target.files[0]?.type?.startsWith("video") || event.target.files[0]?.type?.startsWith("audio")) {
 					setVideoDuration(event.target.files[0]);
 				}
 				setSize(event.target.files[0]?.size);
